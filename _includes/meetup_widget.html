@@ -4,7 +4,7 @@ var mup_widget = {
         block(jQuery, document.body);
     },
     api_call: function(path, params) {
-        return "http://api.meetup.com" + path + "?callback=?&" + jQuery.param(jQuery.extend({ key: $api_key }, params));
+        return "https://api.meetup.com" + path + "?callback=?&" + jQuery.param(jQuery.extend({ key: $api_key }, params));
     }
 };
 $api_key = "344d26798656a6f4279752f17364452";
