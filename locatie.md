@@ -12,3 +12,5 @@ VoidWarranties is goed bereikbaar met het openbaar vervoer. Met de trein: Je kan
 ## Met de auto
 
 Komende van richting NL: Op de ring van Anwerpen(R1/A1) kan je via afrit 3-Borgerhout de autosnelweg af rijden. Komende van richting Brussel: Op de ring van Antwerpen(R1/A1) kan je via afrit 3-Borgerhout de autosnelweg af rijden.
+
+{% include map.html %}
