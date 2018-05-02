@@ -1,0 +1,22 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+  $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
+      var status = "closed";
+      var $bgcolor = "#FF0000";
+      if (data.state.open) {
+        status = "open";
+        bgcolor = "#00FF00";
+      }
+
+      document.write("<html>");
+      document.write("<head>");
+      document.write("<title>VoidWarranties spacestate</title>");
+      document.write("</head>");
+      document.write('<body style="background-color: ' + bgcolor + '">');
+      document.write("VoidWarranties is " + status + "!");
+      document.write("</body>");
+      document.write("</html>");
+  });
+});
+</script>
