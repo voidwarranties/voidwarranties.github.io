@@ -3,7 +3,7 @@
 $(function() {
   $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
       var status = "closed";
-      var $bgcolor = "#FF0000";
+      var bgcolor = "#FF0000";
       if (data.state.open) {
         status = "open";
         bgcolor = "#00FF00";
