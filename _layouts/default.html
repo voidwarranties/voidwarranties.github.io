@@ -41,6 +41,16 @@
               max-width: 1024px;
           }
       }
+      h1 > a {
+          display: none;
+      }
+      h1.open > a {
+          text-transform: uppercase;
+          vertical-align: super;
+          font-size: 35%;
+          text-decoration: none;
+          display: inline;
+      }
       
     </style>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -52,7 +62,7 @@
     <div class="container">
       <div class="container">
         <div class="page-header">
-          <h1>Voidwarranties</h1>
+            <h1>Voidwarranties<a href="/status/" target="_blank" title="Voidwarranties is currently open">open</a></h1>
         </div>
       </div>
       <nav class="navbar navbar-inverse">
@@ -90,5 +100,14 @@
         </div>
       </div>
     </div>
+<script type="text/javascript">
+$(function() {
+  $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
+      if (data.state.open) {
+        $("h1").addClass("open");
+      }
+  });
+});
+</script>
   </body>
 </html>
