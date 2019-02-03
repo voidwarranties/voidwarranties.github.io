@@ -9,7 +9,7 @@ Over hoe je precies van de straat tot in de kelder raakt is er een filmpje gemaa
 
 ## Openbaar vervoer
 VoidWarranties is goed bereikbaar met het openbaar vervoer. 
-* Met de trein
+## Met de trein
 Je kan afstappen in twee stations: Antwerpen-Berchem of Antwerpen Centraal, hierna is het nog 15-20 minuten stappen of je pakt de tram/bus/fiets/taxi
 * Met de tram:
 1. Vanaf het Centraal Station pak je de **8** - **P+R Wommelgem** en je stapt af aan halte 'Muggenberg'.
