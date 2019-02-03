@@ -15,8 +15,8 @@ or from your own forked clone of the repo:
 ### Jekyll setup
 Read : https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/
 Run the following after installing a standard jekyll install:
-	$ sudo bundle install
 	$ sudo apt-get install ruby
+	$ sudo bundle install
 	$ sudo gem install bundler
 
 ### Run your site to test
@@ -24,6 +24,4 @@ Run the following after installing a standard jekyll install:
 	$ bundle exec jekyll serve
 Open your browser to http://0.0.0.0:4000
 
-Edit your documents...
-
-
+Edit your documents, save, refresh your browser, etc. ...
