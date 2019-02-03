@@ -3,8 +3,6 @@ title: "Lid Worden"
 ---
 # Lid worden
 
-## Lid worden
-
 Voidwarranties is voor iedereen toegankelijk. Vóór je lid wordt mag je de hackerspace een aantal keren bezoeken.
 
 ## Procedure
