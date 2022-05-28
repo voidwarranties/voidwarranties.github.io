@@ -1,3 +1,3 @@
-# Evenementen
+# Activiteiten
 
 {% include meetup_widget.html %}

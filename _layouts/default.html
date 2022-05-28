@@ -25,8 +25,14 @@
         background-color: white;
         padding: 0;
       }
+      .header-background {
+        color: white;
+        background-color: black;      
+      }
       .page-header {
         border: 0;
+//        color: white;
+//        background-color: black;
       }
       .navbar {
         border-radius: 0;
@@ -50,8 +56,10 @@
           font-size: 35%;
           text-decoration: none;
           display: inline;
+      } 
+      .img {
+	  float: right;
       }
-      
     </style>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -60,9 +68,11 @@
   </head>
   <body>
     <div class="container">
-      <div class="container">
+      <div class="container header-background">
         <div class="page-header">
-            <h1>Voidwarranties<a href="/status/" target="_blank" title="Voidwarranties is currently open">open</a></h1>
+	    <img class="img">
+            <h1>VoidWarranties<a href="/status/" target="_blank" title="Voidwarranties is currently open">open</a></h1>
+
         </div>
       </div>
       <nav class="navbar navbar-inverse">
@@ -106,6 +116,9 @@ $(function() {
   $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
       if (data.state.open) {
         $("h1").addClass("open");
+        $(".img").attr("src",data.state.icon.open);
+      } else {
+        $(".img").attr("src",data.state.icon.closed);     
       }
   });
 });
