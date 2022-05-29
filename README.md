@@ -25,5 +25,6 @@ Run the following after installing a standard jekyll install:
 Open your browser to http://0.0.0.0:4000
 
 Edit your documents, save, refresh your browser, etc. ... Or don't refresh and use
+
 	$ bundle exec jekyll serve --livereload
 
