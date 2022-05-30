@@ -2,7 +2,7 @@
   
 > **VoidWarranties VZW**  
 Herrystraat 22,  
-2100 Deurne
+2100 Deurne (Antwerpen)
 {% include map.html %}
 
 Het gebouw waar de space in zit heet **Muggenberghof** en ligt tussen de Herrystraat en de Van Hovestraat. De ingang van de space is via de keldertrap aan de zuidzijde. 
