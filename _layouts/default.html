@@ -31,8 +31,6 @@
       }
       .page-header {
         border: 0;
-//        color: white;
-//        background-color: black;
       }
       .navbar {
         border-radius: 0;
@@ -57,7 +55,7 @@
           text-decoration: none;
           display: inline;
       } 
-      .img {
+      .logo {
 	  float: right;
       }
     </style>
@@ -70,9 +68,8 @@
     <div class="container">
       <div class="container header-background">
         <div class="page-header">
-	    <img class="img">
+ 	    <img class="logo hidden-xs">
             <h1>VoidWarranties<a href="/status/" target="_blank" title="Voidwarranties is currently open">open</a></h1>
-
         </div>
       </div>
       <nav class="navbar navbar-inverse">
@@ -112,16 +109,16 @@
       </div>
     </div>
 <script type="text/javascript">
-$(function() {
+$(setInterval(function() {
   $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
       if (data.state.open) {
         $("h1").addClass("open");
-        $(".img").attr("src",data.state.icon.open);
+        $(".logo").attr("src",data.state.icon.open);
       } else {
-        $(".img").attr("src",data.state.icon.closed);     
+        $(".logo").attr("src",data.state.icon.closed);     
       }
   });
-});
+}), 10000);
 </script>
   </body>
 </html>
