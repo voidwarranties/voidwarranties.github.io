@@ -25,7 +25,7 @@
         background-color: white;
         padding: 0;
       }
-      .header-background {
+      .header-footer {
         color: white;
         background-color: black;      
       }
@@ -58,6 +58,23 @@
       .logo {
 	  float: right;
       }
+      #quote {
+          max-width: 550px;
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .cite {
+          width: 200px;
+          margin-left: auto;
+	  margin-top: 10px;
+      	  margin-right: 0px;
+      }
+      .cc {
+          margin-left: auto;
+          margin-right: auto;
+	  margin-bottom: 10px;
+          width: 88px;
+      }
     </style>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -66,7 +83,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="container header-background">
+      <div class="container header-footer">
         <div class="page-header">
  	    <img class="logo hidden-xs">
             <h1>VoidWarranties<a href="/status/" target="_blank" title="Voidwarranties is currently open">open</a></h1>
@@ -97,16 +114,14 @@
       <div class="container">
         {{ content }}
         <hr>
-        <div class="row">
-          <div class="col-md-6">
-            <p>VoidWarranties VZW | Herrystraat 22, 2100 Deurne</p>
-            <a rel="license" href="https://creativecommons.org/licenses/by-nc/2.0/be/deed.nl"><img alt="Creative Commons-Licentie" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/2.0/be/88x31.png"></a>
-          </div>
-          <div class="col-md-6">
-            <blockquote>"Enjoy failure and learn from it. You can never learn from success." <cite>James Dyson</cite></blockquote>
-          </div>
-        </div>
+        <div id="quote"><blockquote></blockquote></div>
       </div>
+      <div class="container header-footer">
+        <p class="text-center" style="margin-top: 10px">VoidWarranties VZW | Herrystraat 22, 2100 Deurne</p>
+        <div  class="cc">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc/2.0/be/deed.nl"><img alt="Creative Commons-Licentie" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/2.0/be/88x31.png"></a>
+        </div>
+       </div>
     </div>
 <script type="text/javascript">
 $(setInterval(function() {
@@ -119,6 +134,11 @@ $(setInterval(function() {
       }
   });
 }), 10000);
+$(function() {
+  $.getJSON("https://api.quotable.io/random?tags=technology", function(data) {
+    $("#quote").html('<blockquote>"' + data.content + '"<br /><div class="cite"><cite>' + data.author + '</cite></div></blockquote>');
+  })
+});
 </script>
   </body>
 </html>
