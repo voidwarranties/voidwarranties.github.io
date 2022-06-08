@@ -86,7 +86,7 @@
     <div class="container">
       <div class="container header-footer">
         <div class="page-header">
- 	    <img class="logo hidden-xs">
+ 	    <img class="logo hidden-xs" src="https://voidwarranties.be/assets/img/voidLogoOffBackground.png" alt="logo - space closed">
             <h1>VoidWarranties<a href="/status/" target="_blank" title="Voidwarranties is currently open">open</a></h1>
         </div>
       </div>
@@ -130,8 +130,11 @@ $(setInterval(function() {
       if (data.state.open) {
         $("h1").addClass("open");
         $(".logo").attr("src",data.state.icon.open);
+        $(".logo").attr("alt","logo - space open");
       } else {
+        $("h1").removeClass("open");
         $(".logo").attr("src",data.state.icon.closed);     
+        $(".logo").attr("alt","logo - space closed");
       }
   });
 }), 10000);
