@@ -10,7 +10,7 @@ VoidWarranties static website is using [Jekyll](https://jekyllrb.com/) static si
 ### Checkout the source
 	$ git clone https://github.com/voidwarranties/voidwarranties.github.io.git
 or from your own forked clone of the repo:
-	$ git clone https://github.com/&lt;user&gt;/voidwarranties.github.io.git
+	$ git clone https://github.com/\<user\>/voidwarranties.github.io.git
 
 ### Jekyll setup
 Read : https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/
