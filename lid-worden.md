@@ -17,5 +17,4 @@ Als je lid wil worden vul je het lidmaatschap aanmeldingsformulier in. Dit overh
 * Minderjarigen betalen hun halve leeftijd in euro’s (een 10-jarige betaalt 5 euro).
 
 Sommige leden kiezen ervoor meer te betalen.  
-Storten kan op IBAN: BE50 3631 1079 1218
-
+Storten kan op IBAN: BE79 8918 7416 6333
