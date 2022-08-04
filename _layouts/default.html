@@ -138,7 +138,7 @@ $(setInterval(function() {
         $(".logo").attr("alt","logo - space closed");
       }
   });
-}), 10000);
+}, 10000));
 $(function() {
   $.getJSON("https://api.quotable.io/random?tags=technology", function(data) {
     $("#quote").html('<blockquote>"' + data.content + '"<br /><div class="cite"><cite>' + data.author + '</cite></div></blockquote>');
