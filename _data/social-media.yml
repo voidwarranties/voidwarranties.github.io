@@ -1,0 +1,29 @@
+#email:
+#  id: 'your.name@yoursite.com'
+#  href: 'mailto:'
+#  title: 'Email'
+#  fa-icon: 'fa-envelope-square'
+
+facebook:
+  id: 'voidwarranties'
+  href: 'https://www.facebook.com/'
+  title: 'Facebook'
+  fa-icon: 'fa-facebook-square'
+
+twitter:
+  id: '@voidwarranties'
+  href: 'https://www.twitter.com/'
+  title: 'Twitter'
+  fa-icon: 'fa-twitter-square'
+
+github:
+  id: 'voidwarranties'
+  href: 'https://github.com/'
+  title: 'GitHub'
+  fa-icon: 'fa-github-square'
+  
+youtube:
+  id: 'wevoidwarrantiesbe'
+  href: 'https://youtube.com/'
+  title: 'YouTube'
+  fa-icon: 'fa-youtube-square'

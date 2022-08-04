@@ -7,4 +7,7 @@ Als je op de hoogte wenst te blijven over wat we doen is het het meest praktisch
 1. Via de [webchat](http://webchat.freenode.net/?channels=voidwarranties)
 2. [via je eigen IRC client](irc://chat.freenode.net:6667/voidwarranties)
 
+## Social media
+
+{% include social-media-links.html %}
 
