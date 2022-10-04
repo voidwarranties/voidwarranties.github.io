@@ -14,9 +14,11 @@ VoidWarranties is goed bereikbaar met het openbaar vervoer.
 #### &ensp;Trein
 - Je kan afstappen in twee stations: Antwerpen-Berchem of Antwerpen Centraal, hierna is het nog 15-20 minuten stappen of je pakt de tram/bus/fiets/taxi
 
-#### &ensp;Tram
-1. Vanaf het Centraal Station pak je de **8** - **P+R Wommelgem** en je stapt af aan halte 'Muggenberg'.
-1. Met de bus vanuit station Berchem pak je de **20 - Borsbeek** of de **420** - **Herentals** of de **421** - **Zandhoven** en stapt af aan halte **Sint-Erasmusziekenhuis**.
+#### Tram of bus
+1. Aan Centraal Station pak je premetro **8 - P+R Wommelgem** en je stapt af aan halte 'Muggenberg'.
+1. Aan Berchem Station pak je **420 - Herentals**/**421 - Zandhoven** en stapt af aan halte 'Borgerhout Morckhoven' of pak je bus **20 - Borsbeek** en stapt af aan halte 'Sint-Erasmusziekenhuis'.
+1. Vanuit Ekeren, Merksem of Deurne-Noord pak je bus **33 - Hoboken** en je stapt af aan halte 'Morckhoven' of 'Muggenberg'.
+1. Vanuit Hoboken, Wilrijk of Mortsel pak je bus **33 - Merksem/Ekeren** en je stapt af aan halte 'Morckhoven' of 'Muggenberg'.
 
 ## Fiets
 Je eigen fiets kan je op het domein stallen. Mocht je met een Velo onderweg zijn dan is de meest nabije stalplaats **242** - Te Boelaerlei.
