@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if page.title != "" %}{{ page.title }} | {% endif %}Voidwarranties</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -23,29 +23,42 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <style>
       body { 
-        background-color: #e6e6e6; 
+        background-color: black; 
         font-family: "Open Sans", sans-serif;
         color: rgb(68, 68, 68);
         font-size: 16px;
-      }
-      body > .container { 
-        background-color: white;
-        padding: 0;
+	background-image: url("/assets/img/background.png");
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-size: cover;
+	background-attachment: fixed;
       }
       .header-footer {
-        color: white;
-        background-color: black;      
+        color: white;  
+      }
+      #content {
+	background-color: rgba(255,255,255,0.95);
+	padding-top: 20px;
       }
       .page-header {
         border: 0;
       }
       .navbar {
-        border-radius: 0;
         font-size: 13px;
+	position: sticky;
+	background: #333;
+	width: 100%;
+	left: 0;
+        top: 0;
+        z-index: 2;
       }
       h1 {
-        font-size: 44px;
+        font-family: Courier New;
+        font-weight: bold;
+        font-size: 40px;
         text-rendering: optimizeLegibility;
+	-webkit-text-stroke: 10px black;
+	paint-order: stroke fill;
       }
       @media (min-width: 1200px) {
           .container{
@@ -60,13 +73,16 @@
           vertical-align: super;
           font-size: 35%;
           text-decoration: none;
-          display: inline;
+	  display: inline;
+	  -webkit-text-stroke-width: 5px;
+	  font-family: "Open Sans", sans-serif;
+	  color: limegreen;
       } 
       .logo {
 	  float: right;
       }
       #quote {
-          max-width: 550px;
+          max-width: 100%;
           margin-left: auto;
           margin-right: auto;
       }
@@ -90,7 +106,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="container">
       <div class="container header-footer">
         <div class="page-header">
  	    <img class="logo hidden-xs" src="https://voidwarranties.be/assets/img/voidLogoOffBackground.png" alt="logo - space closed">
@@ -120,7 +135,7 @@
           </div><!--/.nav-collapse -->
         </div>
       </nav>
-      <div class="container">
+      <div class="container" id="content">
         {{ content }}
         <hr>
         <div id="quote"><blockquote></blockquote></div>
@@ -131,17 +146,16 @@
         <a rel="license" href="https://creativecommons.org/licenses/by-nc/2.0/be/deed.nl"><img alt="Creative Commons-Licentie" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/2.0/be/88x31.png"></a>
         </div>
        </div>
-    </div>
 <script>
 $(setInterval(function spaceApi() {
   $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
       if (data.state.open) {
         $("h1").addClass("open");
-        $(".logo").attr("src",data.state.icon.open);
+        $(".logo").attr("src","/assets/img/voidLogoOn.png");
         $(".logo").attr("alt","logo - space open");
       } else {
         $("h1").removeClass("open");
-        $(".logo").attr("src",data.state.icon.closed);     
+        $(".logo").attr("src","/assets/img/voidLogoOff.png");
         $(".logo").attr("alt","logo - space closed");
       }
   });
