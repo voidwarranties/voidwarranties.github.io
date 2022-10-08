@@ -98,12 +98,12 @@ $(setInterval(function spaceApi() {
         $("div#content").addClass("open");
         $("div#content").removeClass("closed");
 		$("#status").html("(OPEN)");
-		$("title").text("OPEN VoidWarranties");
+		$("title").text("[OPEN] VoidWarranties");
       } else if (data.state.open == false) {
         $("div#content").addClass("closed");
         $("div#content").removeClass("open");
 		$("#status").html("(CLOSED)");
-		$("title").text("CLOSED VoidWarranties");
+		$("title").text("[CLOSED] VoidWarranties");
       } else {
         $("div#content").removeClass("open");
         $("div#content").removeClass("closed");
