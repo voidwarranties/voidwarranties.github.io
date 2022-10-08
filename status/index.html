@@ -1,22 +1,118 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script type="text/javascript">
-$(function() {
-  $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
-      var status = "closed";
-      var bgcolor = "#FF0000";
-      if (data.state.open) {
-        status = "open";
-        bgcolor = "#00FF00";
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>VoidWarranties spacestate</title>
+    <link rel="stylesheet" href="code128.css">
+	
+    <link rel="apple-touch-icon" sizes="180x180" href="/../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/../favicon-16x16.png">
+	<link rel="shortcut icon" href="/../favicon.ico" />
+    <link rel="manifest" href="/../site.webmanifest">
+    <link rel="mask-icon" href="/../safari-pinned-tab.svg" color="#5bbad5">
+    <style>
+      body { 
+		margin: 0;
+        background-color: black;
+		background-image: url("background.png");
+		background-repeat: no-repeat;
+		background-position: top center;
+		background-size: cover;
+		background-attachment: fixed;
+        font-family: "Open Sans", sans-serif;
+        color: lightgrey;
+        font-size: 16px;
+		text-align: center;
       }
-
-      document.write("<html>");
-      document.write("<head>");
-      document.write("<title>VoidWarranties spacestate</title>");
-      document.write("</head>");
-      document.write('<body style="background-color: ' + bgcolor + '">');
-      document.write("VoidWarranties is " + status + "!");
-      document.write("</body>");
-      document.write("</html>");
+	  h1, h2, h3{
+		color: white;
+		font-family: Courier New;
+		font-weight: bold;
+		font-size: 40px;
+		margin: 0;
+	  }
+	  .navbar {
+		min-height: 50px;
+		border-radius: 0;
+		margin: 15px 0;
+		border: none;
+		font-size: 22px;
+		position: sticky;
+		background: rgba(30,30,30,0.9);
+		width: 100%;
+		left: 0;
+		top: 0;
+		z-index: 9999;
+	  }
+	  .navbar a{
+		color: lightgrey;
+	  }
+	  #navbar{
+		padding: 10px 0;
+	  }
+	  #content{
+		padding: 40px 10px;
+	  }
+	  .container{
+		margin: 0 auto;
+		width: fit-content;
+	  }
+	  .container h1, .container h2{
+        font-size: 22px;
+	  }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+	</head>
+  <body>
+      <div class="container header-footer">
+        <div class="page-header">
+ 	        <!--<img class="logo hidden-xs" src="http://voidwarranties.be/assets/img/transparentLogo.png" alt="logo - space open">-->
+		    <h1>&nbsp;</h1>
+        </div>
+      </div>
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+          <div id="navbar" class="collapse navbar-collapse">
+            <a href="https://we.voidwarranties.be">we.VoidWarranties.be</a>
+          </div>
+        </div>
+      </nav>
+      <div class="container" id="content">
+			<div class="barcode">
+				<div class="bar2 space1"></div><div class="bar1 space2"></div><div class="bar1 space4"></div><div class="bar4 space1"></div><div class="bar1 space2"></div><div class="bar1 space2"></div><div class="bar1 space3"></div><div class="bar4 space1"></div><div class="bar1 space1"></div><div class="bar1 space4"></div><div class="bar2 space1"></div><div class="bar1 space2"></div><div class="bar1 space4"></div><div class="bar1 space2"></div><div class="bar2 space1"></div><div class="bar2 space1"></div><div class="bar2 space2"></div><div class="bar2 space2"></div><div class="bar4 space2"></div><div class="bar1 space1"></div><div class="bar1 space2"></div><div class="bar1 space2"></div><div class="bar1 space1"></div><div class="bar2 space4"></div><div class="bar1 space2"></div><div class="bar1 space2"></div><div class="bar4 space1"></div><div class="bar1 space2"></div><div class="bar1 space2"></div><div class="bar4 space1"></div><div class="bar1 space2"></div><div class="bar1 space1"></div><div class="bar2 space4"></div><div class="bar2 space4"></div><div class="bar1 space1"></div><div class="bar1 space2"></div><div class="bar1 space2"></div><div class="bar4 space1"></div><div class="bar1 space2"></div><div class="bar1 space4"></div><div class="bar2 space1"></div><div class="bar1 space2"></div><div class="bar1 space1"></div><div class="bar2 space2"></div><div class="bar1 space4"></div><div class="bar1 space1"></div><div class="bar4 space2"></div><div class="bar1 space2"></div><div class="bar3 space2"></div><div class="bar2 space1"></div><div class="bar1 space2"></div><div class="bar2 space3"></div><div class="bar3 space1"></div><div class="bar1 space1"></div><div class="bar2 space0"></div>
+				
+			</div>
+			<h1>VoidWarranties</h1>
+			<h2 id="status">&nbsp;</h2>
+      </div>
+      <div class="container header-footer">
+        <p class="text-center" style="margin-top: 10px">VoidWarranties&nbsp;VZW | Herrystraat&nbsp;22,&nbsp;2100&nbsp;Deurne</p>
+        <div class="cc">
+        <a rel="license" href="https://creativecommons.org/licenses/by-nc/2.0/be/deed.nl"><img alt="Creative Commons-Licentie" style="border-width:0" src="Voidwarranties_files/88x31.png"></a>
+        </div>
+       </div>
+<script>
+$(setInterval(function spaceApi() {
+  $.getJSON("https://spaceapi.voidwarranties.be", function(data) {
+      if (data.state.open) {
+        $("div#content").addClass("open");
+        $("div#content").removeClass("closed");
+		$("#status").html("(OPEN)");
+		$("title").text("OPEN VoidWarranties");
+      } else if (data.state.open == false) {
+        $("div#content").addClass("closed");
+        $("div#content").removeClass("open");
+		$("#status").html("(CLOSED)");
+		$("title").text("CLOSED VoidWarranties");
+      } else {
+        $("div#content").removeClass("open");
+        $("div#content").removeClass("closed");
+		$("#status").html("&nbsp;");
+		$("title").text("VoidWarranties spacestate");
+      }
   });
-});
+  return spaceApi;
+}(), 10000));
 </script>
+</body>
+</html>
