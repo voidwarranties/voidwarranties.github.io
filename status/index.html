@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="nl">
 <head>
     <title>VoidWarranties spacestate</title>
@@ -73,7 +73,7 @@
       <nav class="navbar navbar-inverse">
         <div class="container">
           <div id="navbar" class="collapse navbar-collapse">
-            <a href="https://we.voidwarranties.be">we.VoidWarranties.be</a>
+            <a href="https://we.voidwarranties.be">https://we.voidwarranties.be</a>
           </div>
         </div>
       </nav>
@@ -97,12 +97,12 @@ $(setInterval(function spaceApi() {
       if (data.state.open) {
         $("div#content").addClass("open");
         $("div#content").removeClass("closed");
-		$("#status").html("(OPEN)");
+		$("#status").html("OPEN");
 		$("title").text("[OPEN] VoidWarranties");
       } else if (data.state.open == false) {
         $("div#content").addClass("closed");
         $("div#content").removeClass("open");
-		$("#status").html("(CLOSED)");
+		$("#status").html("CLOSED");
 		$("title").text("[CLOSED] VoidWarranties");
       } else {
         $("div#content").removeClass("open");

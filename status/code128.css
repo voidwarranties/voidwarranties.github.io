@@ -5,15 +5,18 @@
 	--open2: LimeGreen;
 	--closed2: OrangeRed;
 }
+#status {
+	font-size: 45px;
+}
 /*** SPACE DEFAULT ***/
 .barcode .bar1, .barcode .bar2, .barcode .bar3, .barcode .bar4{
 	border-left-color: var(--default) !important;
-	transition: border-left-color 0.5s !important;
+	transition: border-left-color 2.5s !important;
 }
 #content *{
 	filter: drop-shadow(0 0 0px var(--default));
 	color: var(--default);
-	transition: color 0.5s, filter 0.5s;
+	transition: color 2.5s, filter 2.5s;
 }
 
 /*** SPACE Closed ***/
