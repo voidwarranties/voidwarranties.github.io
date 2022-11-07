@@ -20,19 +20,19 @@ $ git clone https://github.com/<user>/voidwarranties.github.io.git
 Read : https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/
 Run the following after installing a standard jekyll install:
 ```bash
-	$ sudo apt-get install ruby
-	$ sudo bundle install
-	$ sudo gem install bundler
+$ sudo apt-get install ruby
+$ sudo bundle install
+$ sudo gem install bundler
 ```
 
 ### Run your site to test
 ```bash
-	$ cd <git repo clone>
-	$ bundle exec jekyll serve
+$ cd <git repo clone>
+$ bundle exec jekyll serve
 ```
 Open your browser to http://127.0.0.1:4000
 
 Edit your documents, save, refresh your browser, etc. ... Or don't refresh and use
 ```bash
-	$ bundle exec jekyll serve --livereload
+$ bundle exec jekyll serve --livereload
 ```
