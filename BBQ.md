@@ -12,7 +12,7 @@
     }
 	function submitForm() {
       // Get form data
-      var naam = document.getElementById("naam").value;
+      var name = document.getElementById("name").value;
       var email = document.getElementById("email").value;
       var contact = document.getElementById("contact").value;
       var vegi = parseInt(document.getElementById("vegi").value);
@@ -20,11 +20,11 @@
 
       // Create JSON object
       var formData = {
-        naam: naam,
+        naam: name,
         email: email,
         contact: contact,
         vegi: vegi,
-        vlees: meat
+        vlees: vlees
       };
 
       // Send JSON data to server
