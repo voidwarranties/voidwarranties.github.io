@@ -104,14 +104,15 @@
       form input:invalid {
             border-color: red;
       }
-      .form input:valid + span.error-message {
+      form input:valid + span.error-message {
             color: green;
             margin-left: 8px;
             display: none;
       }
-      .form input:invalid + span.error-message {
+      form input:invalid + span.error-message {
             color: red;
             margin-left: 8px;
+            display: block;
       }
     </style>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
