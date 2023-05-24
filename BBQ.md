@@ -1,5 +1,6 @@
 <h2 id="BBQ">Inschrijvingen BBQ '23</h2>
-<div id="BBQform"><script>
+<div id="BBQform">
+	<script>
 	// update total
     function calcTotal() {
       var prijsPerPersoon = 15;
@@ -45,11 +46,12 @@
       xhr.onload = function() {
         if (xhr.status === 200) {
           // Form submission success
-          alert("Form submitted successfully!");
+          //alert("Form submitted successfully!");
         } else if (xhr.status === 201) {
           // Form submission success
-          alert("Form submitted successfully!");
-	  console.log(xhr);
+          //alert("Form submitted successfully!");
+	  console.log(xhr.response);
+	  console.log(xhr.responseText);
         } else {
           // Form submission failed
           alert("Form submission failed. Please try again.");
@@ -64,10 +66,10 @@
 Om zeker te zijn dat we eten voor je voorzien, gelieve er voor te zorgen dat je betaling ons voor 26/8 bereikt.</i><br>
     <label for="name">Reservatie naam:</label><br>
     <input type="text" name="name" required="" autofocus="" placeholder="H4CK3R" id="name">
-    <span class="error-message">Verplicht! (te vernoemen in mededeling van betaling)</span>
+    <span class="error-message">Verplicht! (te vernoemen in mededeling van betaling)</span><br>
     <label for="email">Email adres:</label>(optioneel)<br>
     <input type="email" name="email" id="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
-    <span class="error-message">Ongeldig e-mailadres</span>
+    <span class="error-message">Ongeldig e-mailadres</span><br>
     <label for="contact">Bijkomende informatie:</label><br>
     <textarea type="text" name="contact" rows="2" cols="50" id="contact" style="width: 282px; height: 47px;"></textarea><br>
     <label for="meat">Aantal vlees:</label>
@@ -75,6 +77,7 @@ Om zeker te zijn dat we eten voor je voorzien, gelieve er voor te zorgen dat je 
     <label for="vegi">Aantal vegetarisch:</label>
     <input type="number" name="vegi" value="0" min="0" max="99" required="" id="vegi"><br>
     <label for="total">Totaal:</label><br>
+    <input type="number" name="amount" id="amount" placeholder="0" min="1" hidden disabled>
     <input type="text" name="total" id="total" placeholder="0 (€0)" disabled>
     <br>
     <input type="submit" value="Inschrijven" id="submit" disabled>
