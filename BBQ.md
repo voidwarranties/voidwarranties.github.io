@@ -1,14 +1,19 @@
 <h2 id="BBQ">Inschrijvingen BBQ '23</h2>
 <div id="BBQform"><script>
     function calcTotal() {
+      var prijsPerPersoon = 15;
       var aantalVleeseters = parseInt(document.getElementById("meat").value);
         console.log("vlees: " + aantalVleeseters);
       var aantalVegetariers = parseInt(document.getElementById("vegi").value);
         console.log("vegi: " + aantalVegetariers);
       var totaalAantal = aantalVleeseters + aantalVegetariers;
         console.log("totaal: " + totaalAantal);
+      var totaalPrijs = totaalAantal * prijsPerPersoon;
+        console.log("prijs: " + totaalPrijs);
       document.getElementById("total").value = totaalAantal;
         console.log("totalvalue: " + document.getElementById("total").value);
+      document.getElementById("price").value = totaalPrijs;
+        console.log("totalprice: " + document.getElementById("price").value);
     }
 	function submitForm() {
       // Get form data
@@ -61,7 +66,10 @@ Om zeker te zijn dat we eten voor je voorzien, gelieve er voor te zorgen dat je 
     <label for="vegi">Aantal vegetarisch:</label>
     <input type="number" name="vegi" value="0" min="0" max="99" required="" id="vegi"><br>
     <label for="total">Totaal:</label><br>
-    <input type="number" name="total" min="0" max="99" id="total" readonly="">
+    <input type="number" name="total" min="0" max="99" id="total" disabled>
+	<br>
+    <label for="price">Totaalprijs:</label><br>
+    <input type="number" name="price" min="0" max="99" id="price" disabled>
     <br>
     <input type="submit" value="Inschrijven">
 </form>
