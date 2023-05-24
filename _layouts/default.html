@@ -101,6 +101,18 @@
 	  margin-bottom: 10px;
           width: 88px;
       }
+      form input:invalid {
+            border-color: red;
+      }
+      .form input:valid + span.error-message {
+            color: green;
+            margin-left: 8px;
+            display: none;
+      }
+      .form input:invalid + span.error-message {
+            color: red;
+            margin-left: 8px;
+      }
     </style>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
