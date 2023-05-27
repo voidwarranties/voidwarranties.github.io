@@ -322,8 +322,6 @@
       </nav>
       <div class="container" id="content">
         {{ content }}
-        <hr>
-        <div id="quote"><blockquote></blockquote></div>
       </div>
       <div class="container header-footer">
         <p class="text-center" style="margin-top: 10px">VoidWarranties VZW | Herrystraat 22, 2100 Deurne</p>
@@ -346,11 +344,6 @@ $(setInterval(function spaceApi() {
   });
   return spaceApi;
 }(), 10000));
-$(function() {
-  $.getJSON("https://api.quotable.io/random?tags=technology", function(data) {
-    $("#quote").html('<blockquote>"' + data.content + '"<br /><div class="cite"><cite>' + data.author + '</cite></div></blockquote>');
-  })
-});
 </script>
   </body>
 </html>
