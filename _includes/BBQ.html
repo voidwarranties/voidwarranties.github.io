@@ -112,7 +112,7 @@
             //alert("Form submitted successfully!");
    	  var response = JSON.parse(xhr.response);
    	  console.log(response);
-   	  document.getElementById("BBQwrapper").innerHTML = '<div class="form-area" style="max-width: 900px;padding: 25px;">' +
+   	  document.getElementById("content").innerHTML = '<div id="BBQ" class="form-area" style="max-width: 900px;padding: 25px;">' +
    		'<div>' +
    		'<p>Je bent ingeschreven voor ' + response.totaal + (response.totaal == 1 ? ' persoon' : ' personen' ) +' (' + response.vlees + ' vlees en ' + response.vegi + ' vegetarisch)</p>' +
    		'<p>Scan de QR code met je banking app om een SEPA overschrijving te starten of voer het manueel in.</p>' +
@@ -122,7 +122,13 @@
    		'<p>bedrag: <b>€' + response.bedrag + '</b></p>' +
    		'<p>mededeling: <b>' + response.mededeling + '</b></p>' +
    		'</div>' +
-   		'<img width="200px" height="200px" src="https://qrcode.tec-it.com/API/QRCode?data=BCD%0a002%0a1%0aSCT%0a%0aVoid+Warranties%0aBE79891874166333%0aEUR420.69%0a%0a%2b%2b%2b341%2f1621%2f72192%2b%2b%2b&errorcorrection=M&backcolor=%23ffffff&quietzone=3" />' +
+   		'<img width="200px" height="200px" ' +
+           'src="https://qrcode.tec-it.com/API/QRCode?data=BCD%0a002%0a1%0aSCT%0a%0a' +
+           'Void+Warranties+VZW%0a' +
+           'BE79891874166333' + 
+           '%0aEUR' + response.bedrag + 
+           '%0a%0a' + encodeURI(response.mededeling) + 
+           '&errorcorrection=M&backcolor=%23ffffff&quietzone=3" />' +
    		'</div>';
    	} else {
    		console.log("Error");
