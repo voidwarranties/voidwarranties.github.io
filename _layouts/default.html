@@ -37,24 +37,20 @@
 		background-size: cover;
 		background-attachment: fixed;
 	}
-
 	.header-footer {
 		color: white;
 	}
-
 	#content {
 		background-color: rgba(255, 255, 255, 0.9);
+		height: 100%;
 	}
-
 	#carousel div.carousel-inner div.item,
 	#carousel div.carousel-inner div.item img {
 		width: 100%;
 	}
-
 	.page-header {
 		border: 0;
 	}
-
 	.navbar {
 		border-radius: 0;
 		margin-bottom: 15px;
@@ -67,24 +63,20 @@
 		top: 0;
 		z-index: 9999;
 	}
-
 	div.page-header h1 {
 		font-family: Courier New;
 		font-weight: bold;
 		font-size: 40px;
 		text-rendering: optimizeLegibility;
 	}
-
 	@media (min-width: 1200px) {
 		.container {
 			max-width: 1024px;
 		}
 	}
-
 	h1>a {
 		display: none;
 	}
-
 	h1.open>a {
 		text-transform: uppercase;
 		vertical-align: super;
@@ -94,51 +86,34 @@
 		font-family: "Open Sans", sans-serif;
 		color: limegreen;
 	}
-
 	.logo {
 		float: right;
 	}
-
 	#quote {
 		max-width: 600px;
 		margin-left: auto;
 		margin-right: auto;
 	}
-
 	.cite {
 		width: 200px;
 		margin-left: auto;
 		margin-top: 10px;
 		margin-right: 0px;
 	}
-
 	.cc {
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 10px;
 		width: 88px;
 	}
-
 	.nowrap {
 		white-space: nowrap;
 	}
-
 	.bold {
 		font-weight: bold;
 	}
-
-	#content {
-		display: -webkit-flex;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: linear-gradient(to right, #0181ff, #00b6ff);
-		height: 100%;
-	}
-
 	.form-area {
 		min-width: 360px;
-		background-color: #fff;
 		display: -webkit-flex;
 		display: flex;
 		flex-direction: column;
@@ -147,16 +122,13 @@
 		margin: 30px;
 		box-shadow: 0 40px 20px rgba(0, 0, 0, 0, 0.5);
 	}
-
 	input:invalid {
 		border-color: red;
 		color: red;
 	}
-
 	span.error-message {
 		display: none;
 	}
-
 	input:invalid+span.error-message {
 		display: block;
 		position: absolute;
@@ -169,7 +141,6 @@
 		background-color: #ffbcbc;
 		z-index: 1;
 	}
-
 	.flex {
 		display: -webkit-flex;
 		display: flex;
@@ -178,28 +149,24 @@
 		justify-content: space-between;
 		gap: 8px;
 	}
-
 	input,
 	textarea {
 		text-align: center;
 	}
-
 	.img-area {
 		max-height: 200px;
 		width: 100%;
 	}
-
 	div.img-area {
 		height: 320px;
 		width: 100%;
-		background: url("BBQ3.jpg");
+		background: url("assets/img/BBQ3.jpg");
 		background-color: black;
 		background-position: center;
 		-webkit-background-size: cover;
 		background-size: cover;
 		box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, .3);
 	}
-
 	.left-text {
 		padding: 30px 30px;
 		color: #fff;
@@ -207,29 +174,24 @@
 		text-transform: uppercase;
 		font-weight: 900;
 	}
-
 	.left-text p {
 		text-transform: none;
 	}
-
 	.left-text i {
 		font-size: 25px;
 		color: #fff;
 		margin-right: 25px;
 	}
-
 	.right-text {
 		width: 300px;
 		margin: 30px;
 		text-align: center;
 	}
-
 	.right-text h2 {
 		font-weight: 600;
 		font-size: 25px;
 		margin: 0 0 20px;
 	}
-
 	.right-text a,
 	#submit {
 		cursor: pointer;
@@ -245,34 +207,28 @@
 		font-size: 20px;
 		letter-spacing: 3px;
 	}
-
 	#submit:disabled {
 		filter: brightness(75%);
 		cursor: not-allowed;
 		pointer-events: all !important;
 	}
-
 	#submit:enabled:hover {
 		filter: brightness(125%);
 	}
-
 	.right-text input[type=text] {
 		margin-bottom: 8px;
 		min-width: 120px;
 		padding: 8px;
 	}
-
 	.right-text .amount {
 		margin-top: 8px;
 		min-width: 60px;
 		padding: 8px;
 	}
-
 	#totalamount {
 		min-width: 150px;
 		padding: 8px;
 	}
-
 	.right-text textarea {
 		font-family: Arial;
 		margin-bottom: 8px;
@@ -280,11 +236,9 @@
 		padding: 8px;
 		resize: none;
 	}
-
 	label {
 		margin-right: 10px;
 	}
-
 	@media screen and (min-width: 768px) {
 		.form-area {
 			flex-direction: row;
@@ -301,7 +255,6 @@
 			max-width: 640px;
 		}
 	}
-
 	@media screen and (min-width: 960px) {
 		.form-area {
 			max-width: 920px;
@@ -311,7 +264,6 @@
 			padding: 60px 60px;
 		}
 	}
-
 	@media screen and (max-width: 640px) {
 		.form-area {
 			min-width: 320px;
