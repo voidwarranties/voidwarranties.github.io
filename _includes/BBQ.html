@@ -1,0 +1,137 @@
+<div id="BBQ">
+   <form class="form-area" onsubmit="event.preventDefault(); submitForm();" onchange="calcTotal();">
+      <div class="img-area">
+         <div class="left-text">
+            <p>WE VOID BARBECUES</p>
+            <p>27 aug 2023</p>
+         </div>
+      </div>
+      <div class="right-text">
+         <h2>Inschrijving BBQ</h2>
+         <p class="nowrap bold">zondag 27 aug 2023</p>
+         <p>De barbecue kost <span class="nowrap bold">€15</span> per persoon.
+            Betaling kan via overschrijving op IBAN: <span class="nowrap bold">BE79 8918 7416 6333</span>
+            <br>
+            Om zeker te zijn dat we eten voor je voorzien, gelieve er voor te zorgen dat je <span class="nowrap bold">betaling</span> ons <span class="nowrap bold">voor 21 augustus</span> bereikt.
+         </p>
+         <div class="flex">
+            <input id="name" name="name" type="text" placeholder="Naam"  minlength="1" maxlength="50">
+            <span class="error-message">Verplicht! (te vermelden bij betaling)</span>
+            <input id="email" name="email" type="text" placeholder="Email (optioneel)" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+            <span class="error-message">Ongeldig e-mailadres</span>
+         </div>
+         <textarea id="contact" name="contact" type="text" placeholder="Extra informatie"></textarea>
+         <div class="flex">
+            <label>Vlees:</label><input id="vlees" name="vlees" value="0" min="0" max="100" required="" type="number" class="amount" placeholder="0">
+            <label>Vegi:</label><input id="vegi" name="vegi" value="0" min="0" max="100" required="" min="0" type="number" class="amount" placeholder="0">
+         </div>
+         <div class="flex">
+            <p class="bold">Totaal:</p>
+            <input id="totalamount" name="total" type="text" class="bold" placeholder="0 (€0)" disabled>
+            <span class="error-message">Minimum 1 persoon!</span>
+         </div>
+         <input type="submit" value="Inschrijven" id="submit" disabled>
+      </div>
+   </form>
+</div>
+<script>
+   var prijsPerPersoon = 15;
+   var aantalVleeseters = 0;
+   var aantalVegetariers = 0;
+   var totaalAantal = 0;
+   var totaalPrijs = 0;
+   var name = document.getElementById("name").value;
+   var email = "";
+   var contact = "";
+   // update total
+   
+      function calcTotal() {
+   
+          console.log("calcTotal function start");
+   	document.getElementById("name").required = true;
+   	name = document.getElementById("name").value;
+   	
+   	aantalVleeseters = parseInt(document.getElementById("vlees").value) || 0;
+   	console.log("vlees: " + aantalVleeseters);
+   	aantalVegetariers = parseInt(document.getElementById("vegi").value) || 0;
+   	console.log("vegi: " + aantalVegetariers);
+   	
+   	totaalAantal = aantalVleeseters + aantalVegetariers;
+   	if (totaalAantal < 1 || totaalAantal == NaN ) totaalAantal = 0;
+   	totaalPrijs = totaalAantal * prijsPerPersoon;
+   	if (totaalPrijs < 1 || totaalAantal == NaN ) totaalPrijs = 0;
+   	document.getElementById("totalamount").value = totaalAantal + " personen (€" + totaalPrijs + ")";
+          console.log("total: " + totaalAantal + " (€" + totaalPrijs + ")");
+   	
+   	if(totaalAantal > 0 && aantalVleeseters >= 0 && aantalVegetariers >= 0 ) {
+   		console.log("totalamount > 0");
+   		document.getElementById("submit").disabled = ( name == "" );
+   		document.getElementById("totalamount").disabled = true;
+   		document.getElementById("vlees").setCustomValidity("");
+   		document.getElementById("vegi").setCustomValidity("");
+   		document.getElementById("totalamount").setCustomValidity("");
+   	} else {
+   		console.log("totalamount < 1");
+   		document.getElementById("submit").disabled = true;
+   		document.getElementById("totalamount").disabled = false;
+   		document.getElementById("vlees").setCustomValidity("Minimum 1 persoon!");
+   		document.getElementById("vegi").setCustomValidity("Minimum 1 persoon!");
+   		document.getElementById("totalamount").setCustomValidity("Minimum 1 persoon!");
+   	}
+      }
+   function submitForm() {
+        // Get form data
+        name = document.getElementById("name").value;
+        email = document.getElementById("email").value;
+        contact = document.getElementById("contact").value;
+        aantalVegetariers = parseInt(document.getElementById("vegi").value) || 0;
+        aantalVleeseters = parseInt(document.getElementById("vlees").value) || 0;
+   
+        // Create JSON object
+        var formData = {
+          naam: name,
+          //email: email,
+          contact: contact,
+          vegi: aantalVegetariers,
+          vlees: aantalVleeseters
+        };
+     if(email != "" && /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(email) ) formData.email = email;
+     // /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/
+     // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+   
+        // Send JSON data to server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://spaceapi.voidwarranties.be/bbq", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        if( (aantalVegetariers + aantalVleeseters) > 0 && name != "" ) xhr.send(JSON.stringify(formData));
+   
+        // Handle response
+        xhr.onload = function() {
+          if (xhr.status === 200 || xhr.status === 201) {
+            // Form submission success
+            //alert("Form submitted successfully!");
+   	  var response = JSON.parse(xhr.response);
+   	  console.log(response);
+   	  document.getElementById("BBQwrapper").innerHTML = '<div class="form-area" style="max-width: 900px;padding: 25px;">' +
+   		'<div>' +
+   		'<p>Je bent ingeschreven voor ' + response.totaal + (response.totaal == 1 ? ' persoon' : ' personen' ) +' (' + response.vlees + ' vlees en ' + response.vegi + ' vegetarisch)</p>' +
+   		'<p>Scan de QR code met je banking app om een SEPA overschrijving te starten of voer het manueel in.</p>' +
+   		'<p>Begunstigde: <b>VOID WARRANTIES</b></p>' +
+   		'<p>IBAN: <b>BE79 8918 7416 6333</b></p>' +
+   		//'<p>mededeling: ' + response.naam + '</p>' +
+   		'<p>bedrag: <b>€' + response.bedrag + '</b></p>' +
+   		'<p>mededeling: <b>' + response.mededeling + '</b></p>' +
+   		'</div>' +
+   		'<img width="200px" height="200px" src="https://qrcode.tec-it.com/API/QRCode?data=BCD%0a002%0a1%0aSCT%0a%0aVoid+Warranties%0aBE79891874166333%0aEUR420.69%0a%0a%2b%2b%2b341%2f1621%2f72192%2b%2b%2b&errorcorrection=M&backcolor=%23ffffff&quietzone=3" />' +
+   		'</div>';
+   	} else {
+   		console.log("Error");
+   		// Form submission failed
+   		alert(xhr.responseText);
+   		console.log(xhr.response);
+   		//console.log(xhr.responseText);
+          }
+        };
+      }
+    
+</script>
