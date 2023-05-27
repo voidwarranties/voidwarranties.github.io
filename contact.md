@@ -9,3 +9,4 @@ Als je op de hoogte wenst te blijven over wat we doen is het het meest praktisch
 - Code talks [Github](https://github.com/voidwarranties)
 
 {% include social-media-links.html %}
+{% include quote.html %}
