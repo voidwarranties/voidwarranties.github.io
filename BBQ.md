@@ -1,2 +1,1 @@
-# BBQ
 {% include BBQ.html %}
