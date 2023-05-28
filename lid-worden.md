@@ -18,3 +18,6 @@ Als je lid wil worden vul je het lidmaatschap aanmeldingsformulier in. Dit overh
 
 Sommige leden kiezen ervoor meer te betalen.  
 Storten kan op IBAN: BE79 8918 7416 6333
+
+{% include quote.html %}
+

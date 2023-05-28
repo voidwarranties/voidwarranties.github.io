@@ -27,3 +27,6 @@ Je eigen fiets kan je op het domein stallen. Mocht je met een Velo onderweg zijn
 Kies op de Antwerpse Ring (R1/A1) **afrit 3** - **Borgerhout**.
 
 **Parkeren**? Dat kan, maar de meeste mensen die in de buurt wonen doen dat doorgaans voordat jij passeert. Er is ook een avondschool in de buurt, waardoor het soms moeilijk is een parkeerplaats te vinden. Overweeg om een van de bovenstaande middelen in je reisplan op te nemen. Opgelet de space is gelegen in een zone met betalend parkeren.
+
+{% include quote.html %}
+
