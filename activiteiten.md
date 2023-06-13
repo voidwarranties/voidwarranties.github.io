@@ -31,7 +31,7 @@ const icsToJSON = (icsContent) => {
       } else {
         // New line
         if (currentKey !== '') {
-          event[currentKey] = currentValue.trim();
+          event[currentKey] = convertToDateTime(currentValue.trim());
         }
         const parts = line.split(':');
         currentKey = parts[0].trim();
@@ -41,6 +41,11 @@ const icsToJSON = (icsContent) => {
   }
 
   return events;
+};
+
+const convertToDateTime = (value) => {
+  const dateTime = new Date(value);
+  return isNaN(dateTime) ? value : dateTime;
 };
 
 const parseRRule = (rrule) => {
@@ -76,16 +81,14 @@ const processEvents = (events) => {
       recurringEvents.push(event);
     } else {
       const eventStartDate = new Date(event['DTSTART']);
-	console.log("currentdate: " + currentDate);
-	console.log("eventStartDate: " + eventStartDate);
+		console.log("currentdate: " + currentDate);
+		console.log("eventStartDate: " + eventStartDate);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
       }
     }
   });
-  console.log("recurringEvents:");
   console.log(recurringEvents);
-  console.log("otherEvents:");
   console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
     if (eventArray.length > 0) {
@@ -109,9 +112,11 @@ const processEvents = (events) => {
         } else {
           eventDescription = new Date(event['DTSTART']).toDateString();
         }
-	const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
+
+		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
         const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
-	html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
+
+		html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
       });
       html += '</ul>';
       return html;
