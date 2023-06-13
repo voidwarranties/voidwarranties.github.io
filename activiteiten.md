@@ -16,6 +16,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 const icsToJSON = (icsContent) => {
   const lines = icsContent.split(/\r?\n/);
   const events = [];
+  const removeTZID = (key) => key.replace(/;TZID=.*$/, '');
   let event = null;
   let currentKey = '';
   let currentValue = '';
@@ -37,7 +38,7 @@ const icsToJSON = (icsContent) => {
           event[currentKey] = convertToDateTime(currentValue.trim());
         }
         const parts = line.split(':');
-        currentKey = parts[0].trim();
+        currentKey = removeTZID(parts[0].trim());
         currentValue = parts.length > 1 ? parts.slice(1).join(':') : '';
       }
     }
@@ -52,7 +53,8 @@ const convertToDateTime = (value) => {
 
   if (match) {
     const [, year, month, day, hours, minutes, seconds] = match;
-    const dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
+    //const dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
+	const dateTime = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}+02:00`);
 
     // Check if the conversion to Date object was successful
     if (!isNaN(dateTime)) {
@@ -121,6 +123,7 @@ const processEvents = (events) => {
 
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
+   console.log(event['DTSTART']);
 	  const startTime = (event['DTSTART']).toLocaleTimeString('nl-NL');
    console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
