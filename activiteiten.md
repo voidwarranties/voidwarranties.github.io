@@ -101,6 +101,8 @@ const processEvents = (events) => {
       recurringEvents.push(event);
     } else {
       const eventStartDate = new Date(event['DTSTART']);
+		console.log("currentdate: " + currentDate);
+		console.log("eventStartDate: " + eventStartDate);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
       }
@@ -128,11 +130,11 @@ const processEvents = (events) => {
             eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month}`;
           }
         } else {
-          eventDescription = new Date(event['DTSTART']).toDateString();
+          eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
         }
 
 		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
-        	const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
+        const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
 
 		html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
       });
