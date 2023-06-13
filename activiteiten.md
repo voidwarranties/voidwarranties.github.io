@@ -112,8 +112,6 @@ const processEvents = (events) => {
       recurringEvents.push(event);
     } else {
       const eventStartDate = new Date(event['DTSTART']);
-		console.log("currentdate: " + currentDate);
-		console.log("eventStartDate: " + eventStartDate);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
       }
@@ -131,7 +129,8 @@ const processEvents = (events) => {
 
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
-		  const startTime = formatTime(event['DTSTART']);
+	  const startTime = formatTime(event['DTSTART']);
+   console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
             eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime})`;
           } else if (rrule['FREQ'] === 'WEEKLY' && rrule['BYDAY']) {
