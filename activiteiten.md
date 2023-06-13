@@ -107,8 +107,9 @@ const processEvents = (events) => {
         } else {
           eventDescription = new Date(event['DTSTART']).toDateString();
         }
-	const description = event['DESCRIPTION'] ? `<i>${event['DESCRIPTION']}</i><br>` : '';
-	html += `<li>${summary} - ${eventDescription}<br>${description}</li>`;
+	const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
+        const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
+	html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
       });
       html += '</ul>';
       return html;
