@@ -62,7 +62,7 @@ const convertToDateTime = (value) => {
 
 const removeEscapedCharacters = (value) => {
   return value
-    .replace(/\\(.)/g, '$1') // Remove the backslash before escaped characters
+    //.replace(/\\(.)/g, '$1') // Remove the backslash before escaped characters
     .replace(/\\n/g, '\n') // Replace "\n" with a line break
     .replace(/\\;/g, ';') // Replace "\;" with a semicolon
     .replace(/\\,/g, ','); // Replace "\," with a comma
@@ -101,8 +101,6 @@ const processEvents = (events) => {
       recurringEvents.push(event);
     } else {
       const eventStartDate = new Date(event['DTSTART']);
-		console.log("currentdate: " + currentDate);
-		console.log("eventStartDate: " + eventStartDate);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
       }
@@ -134,7 +132,7 @@ const processEvents = (events) => {
         }
 
 		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
-        const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
+        	const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
 
 		html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
       });
