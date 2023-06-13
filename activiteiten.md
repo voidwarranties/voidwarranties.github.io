@@ -18,7 +18,7 @@ const icsToJSON = (icsContent) => {
   let currentValue = '';
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+    const line = lines[i];
     if (line.startsWith('BEGIN:VEVENT')) {
       event = {};
     } else if (line.startsWith('END:VEVENT')) {
@@ -27,15 +27,15 @@ const icsToJSON = (icsContent) => {
     } else if (event) {
       if (line.startsWith(' ') && currentKey !== '') {
         // Multi-line value
-        currentValue += '\n' + line.trim();
+        currentValue += line.substring(1) + '\n';
       } else {
         // New line
         if (currentKey !== '') {
-          event[currentKey] = currentValue;
+          event[currentKey] = currentValue.trim();
         }
         const parts = line.split(':');
         currentKey = parts[0].trim();
-        currentValue = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
+        currentValue = parts.length > 1 ? parts.slice(1).join(':') : '';
       }
     }
   }
@@ -81,7 +81,9 @@ const processEvents = (events) => {
       }
     }
   });
+  console.log("recurringEvents:");
   console.log(recurringEvents);
+  console.log("otherEvents:");
   console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
     if (eventArray.length > 0) {
