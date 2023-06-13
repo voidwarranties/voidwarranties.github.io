@@ -94,6 +94,15 @@ const getDayOfWeek = (byDay) => {
   return '';
 };
 
+const formatTime = (dateTimeString) => {
+  const dateTime = new Date(dateTimeString);
+  const options = {
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+  return dateTime.toLocaleTimeString('nl-NL', options);
+};
+
 const processEvents = (events) => {
   const currentDate = new Date();
   const recurringEvents = [];
