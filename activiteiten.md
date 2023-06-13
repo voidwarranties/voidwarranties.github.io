@@ -45,7 +45,15 @@ const icsToJSON = (icsContent) => {
 
 const convertToDateTime = (value) => {
   const dateTime = new Date(value);
-  return isNaN(dateTime) ? value : dateTime;
+  return isNaN(dateTime) ? removeEscapedCharacters(value) : dateTime;
+};
+
+const removeEscapedCharacters = (value) => {
+  return value
+    .replace(/\\(.)/g, '$1') // Remove the backslash before escaped characters
+    .replace(/\\n/g, '\n') // Replace "\n" with a line break
+    .replace(/\\;/g, ';') // Replace "\;" with a semicolon
+    .replace(/\\,/g, ','); // Replace "\," with a comma
 };
 
 const parseRRule = (rrule) => {
