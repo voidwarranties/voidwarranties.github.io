@@ -88,7 +88,8 @@ const processEvents = (events) => {
       }
     }
   });
-
+  console.log(recurringEvents);
+  console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
     if (eventArray.length > 0) {
       let html = `<h3>${heading}</h3>`;
@@ -149,6 +150,7 @@ const fetchCalendarICS = (url) => {
 
 const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical;' // Replace with the actual URL of your calendar ICS file
 fetchCalendarICS(calendarICSUrl);
+
   </script>
 
 {% include quote.html %}
