@@ -56,6 +56,7 @@ const convertToDateTime = (value) => {
 
     // Check if the conversion to Date object was successful
     if (!isNaN(dateTime)) {
+      console.log("datetime converted: " + dateTime);
       return dateTime;
     }
   }
@@ -94,7 +95,8 @@ const getDayOfWeek = (byDay) => {
   return '';
 };
 
-const formatTime = (dateTime) => {
+const formatTime = (dateTimeString) => {
+  const dateTime = new Date(dateTimeString);
   const options = {
     hour: 'numeric',
     minute: 'numeric',
