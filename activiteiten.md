@@ -27,7 +27,7 @@ const icsToJSON = (icsContent) => {
     } else if (event) {
       if (line.startsWith(' ') && currentKey !== '') {
         // Multi-line value
-        currentValue += line.substring(1) + '\n';
+        currentValue += line.substring(1);
       } else {
         // New line
         if (currentKey !== '') {
@@ -44,8 +44,20 @@ const icsToJSON = (icsContent) => {
 };
 
 const convertToDateTime = (value) => {
-  const dateTime = new Date(value);
-  return isNaN(dateTime) ? removeEscapedCharacters(value) : dateTime;
+  const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/;
+  const match = value.match(dateTimeRegex);
+
+  if (match) {
+    const [, year, month, day, hours, minutes, seconds] = match;
+    const dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
+
+    // Check if the conversion to Date object was successful
+    if (!isNaN(dateTime)) {
+      return dateTime;
+    }
+  }
+
+  return removeEscapedCharacters(value);
 };
 
 const removeEscapedCharacters = (value) => {
