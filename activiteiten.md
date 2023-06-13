@@ -66,7 +66,7 @@ const convertToDateTime = (value) => {
 const removeEscapedCharacters = (value) => {
   return value
     //.replace(/\\(.)/g, '$1') // Remove the backslash before escaped characters
-    .replace(/\\n/g, '\n') // Replace "\n" with a line break
+    .replace(/\\n/g, '<br>') // Replace "\n" with a line break
     .replace(/\\;/g, ';') // Replace "\;" with a semicolon
     .replace(/\\,/g, ','); // Replace "\," with a comma
 };
@@ -94,8 +94,7 @@ const getDayOfWeek = (byDay) => {
   return '';
 };
 
-const formatTime = (dateTimeString) => {
-  const dateTime = new Date(dateTimeString);
+const formatTime = (dateTime) => {
   const options = {
     hour: 'numeric',
     minute: 'numeric',
@@ -127,20 +126,20 @@ const processEvents = (events) => {
       let html = `<h3>${heading}</h3>`;
       html += '<ul>';
       eventArray.forEach((event) => {
-        const summary = event['SUMMARY'].replace('VoidWarranties - ', '');
-
+        const summary = event['SUMMARY'];
         let eventDescription = '';
 
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
+		  const startTime = formatTime(event['DTSTART']);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
-            eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${formatTime(event['DTSTART'])}`;
+            eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime})`;
           } else if (rrule['FREQ'] === 'WEEKLY' && rrule['BYDAY']) {
             const dayOfWeek = getDayOfWeek(rrule['BYDAY']);
-            eventDescription = `Elke ${dayOfWeek} om ${formatTime(event['DTSTART'])}`;
+            eventDescription = `Elke ${dayOfWeek} om ${startTime})`;
           } else if (rrule['FREQ'] === 'YEARLY' && rrule['BYMONTH'] && rrule['BYMONTHDAY']) {
             const month = new Date().toLocaleString('en-US', { month: 'long' });
-            eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} om ${formatTime(event['DTSTART'])}`;
+            eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} om ${startTime})`;
           }
         } else {
           eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
