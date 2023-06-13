@@ -94,14 +94,6 @@ const getDayOfWeek = (byDay) => {
   return '';
 };
 
-const formatTime = (dateTime) => {
-  const options = {
-    hour: 'numeric',
-    minute: 'numeric',
-  };
-  return dateTime.toLocaleTimeString('nl-NL', options);
-};
-
 const processEvents = (events) => {
   const currentDate = new Date();
   const recurringEvents = [];
@@ -129,7 +121,7 @@ const processEvents = (events) => {
 
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
-	  const startTime = formatTime(event['DTSTART']);
+	  const startTime = event['DTSTART'].toLocaleTimeString('nl-NL');
    console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
             eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime}`;
