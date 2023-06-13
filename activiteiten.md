@@ -107,8 +107,8 @@ const processEvents = (events) => {
         } else {
           eventDescription = new Date(event['DTSTART']).toDateString();
         }
-
-        html += `<li>${summary} - ${eventDescription}</li>`;
+	const description = event['DESCRIPTION'] ? `<i>${event['DESCRIPTION']}</i><br>` : '';
+	html += `<li>${summary} - ${eventDescription}<br>${description}</li>`;
       });
       html += '</ul>';
       return html;
