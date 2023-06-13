@@ -1,5 +1,5 @@
 <div id="BBQ" class="row">
-   <form class="form-area" onsubmit="event.preventDefault(); submitForm();" onchange="calcTotal();" action="https://spaceapi.voidwarranties.be/bbq" method="POST">
+   <form class="form-area" onsubmit="event.preventDefault(); submitForm();" onchange="calcTotal();">
       <div class="img-area">
          <div class="left-text">
             <p>WE VOID BARBECUES</p>
@@ -30,8 +30,8 @@
             <input id="totalamount" name="total" type="text" class="bold" placeholder="0 (€0)" disabled>
             <span class="error-message">Minimum 1 persoon!</span>
          </div>
-         <input type="submit" value="Inschrijven" id="submit" disabled>
-         <noscript>Javascript is required to register</noscript>
+         <input type="submit" value="Inschrijven" id="submit" disabled><br>
+         <noscript>Javascript is required to register!</noscript>
       </div>
    </form>
 </div>
