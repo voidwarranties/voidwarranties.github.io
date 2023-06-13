@@ -75,6 +75,8 @@ const processEvents = (events) => {
     if (event['RRULE']) {
       recurringEvents.push(event);
     } else {
+	console.log("currentdate: " + currentDate);
+	console.log("eventStartDate: " + eventStartDate);
       const eventStartDate = new Date(event['DTSTART']);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
