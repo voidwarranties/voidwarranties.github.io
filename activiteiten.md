@@ -10,10 +10,11 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 
 <div id="event-container"></div>
 <script>
-  const icsToJSON = (icsContent) => {
+const icsToJSON = (icsContent) => {
   const lines = icsContent.split(/\r?\n/);
   const events = [];
   let event = null;
+  let currentKey = '';
   let currentValue = '';
 
   for (let i = 0; i < lines.length; i++) {
@@ -24,25 +25,17 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       events.push(event);
       event = null;
     } else if (event) {
-      if (line.startsWith(' ') && currentValue !== '') {
+      if (line.startsWith(' ') && currentKey !== '') {
         // Multi-line value
-        currentValue += '\n' + line.substring(1).trim();
+        currentValue += '\n' + line.trim();
       } else {
         // New line
-        const parts = line.split(':');
-        const key = parts[0].trim();
-        let value = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
-
-        if (value === '' && key !== '') {
-          // Line continuation
-          currentValue += '\n' + line.substring(1).trim();
-        } else {
-          // New key-value pair
-          if (currentValue !== '') {
-            event[key] = currentValue;
-          }
-          currentValue = value;
+        if (currentKey !== '') {
+          event[currentKey] = currentValue;
         }
+        const parts = line.split(':');
+        currentKey = parts[0].trim();
+        currentValue = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
       }
     }
   }
