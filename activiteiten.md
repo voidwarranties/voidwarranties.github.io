@@ -56,7 +56,6 @@ const convertToDateTime = (value) => {
 
     // Check if the conversion to Date object was successful
     if (!isNaN(dateTime)) {
-      console.log("datetime converted: " + dateTime);
       return dateTime;
     }
   }
@@ -95,8 +94,7 @@ const getDayOfWeek = (byDay) => {
   return '';
 };
 
-const formatTime = (dateTimeString) => {
-  const dateTime = new Date(dateTimeString);
+const formatTime = (dateTime) => {
   const options = {
     hour: 'numeric',
     minute: 'numeric',
@@ -134,13 +132,13 @@ const processEvents = (events) => {
 	  const startTime = formatTime(event['DTSTART']);
    console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
-            eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime})`;
+            eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime}`;
           } else if (rrule['FREQ'] === 'WEEKLY' && rrule['BYDAY']) {
             const dayOfWeek = getDayOfWeek(rrule['BYDAY']);
-            eventDescription = `Elke ${dayOfWeek} om ${startTime})`;
+            eventDescription = `Elke ${dayOfWeek} om ${startTime}`;
           } else if (rrule['FREQ'] === 'YEARLY' && rrule['BYMONTH'] && rrule['BYMONTHDAY']) {
             const month = new Date().toLocaleString('en-US', { month: 'long' });
-            eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} om ${startTime})`;
+            eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} om ${startTime}`;
           }
         } else {
           eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
