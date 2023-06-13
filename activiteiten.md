@@ -125,13 +125,13 @@ const processEvents = (events) => {
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
-            eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand`;
+            eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${formatTime(event['DTSTART'])}`;
           } else if (rrule['FREQ'] === 'WEEKLY' && rrule['BYDAY']) {
             const dayOfWeek = getDayOfWeek(rrule['BYDAY']);
-            eventDescription = `Elke ${dayOfWeek}`;
+            eventDescription = `Elke ${dayOfWeek} om ${formatTime(event['DTSTART'])}`;
           } else if (rrule['FREQ'] === 'YEARLY' && rrule['BYMONTH'] && rrule['BYMONTHDAY']) {
             const month = new Date().toLocaleString('en-US', { month: 'long' });
-            eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month}`;
+            eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} om ${formatTime(event['DTSTART'])}`;
           }
         } else {
           eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
