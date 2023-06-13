@@ -14,6 +14,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
   const lines = icsContent.split(/\r?\n/);
   const events = [];
   let event = null;
+  let currentValue = '';
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -23,10 +24,26 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       events.push(event);
       event = null;
     } else if (event) {
-      const parts = line.split(':');
-      const key = parts[0].trim();
-      const value = parts.length > 1 ? parts[1].trim() : '';
-      event[key] = value;
+      if (line.startsWith(' ') && currentValue !== '') {
+        // Multi-line value
+        currentValue += '\n' + line.substring(1).trim();
+      } else {
+        // New line
+        const parts = line.split(':');
+        const key = parts[0].trim();
+        let value = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
+
+        if (value === '' && key !== '') {
+          // Line continuation
+          currentValue += '\n' + line.substring(1).trim();
+        } else {
+          // New key-value pair
+          if (currentValue !== '') {
+            event[key] = currentValue;
+          }
+          currentValue = value;
+        }
+      }
     }
   }
 
@@ -109,11 +126,8 @@ const processEvents = (events) => {
     html += displayEvents(recurringEvents, 'Herhalende activiteiten');
     html += displayEvents(otherEvents, 'Andere activiteiten');
     if (html !== '') {
-      html += '<a href="https://calendar.google.com/calendar/u/0/r?cid=voidjosto@gmail.com"  target="_blank">Voeg onze kalender toe aan je google kalender</a>';
-    } else {
-      html += '<p>Er zijn momenteel geen geplande activiteiten gevonden</p>';
+      resultContainer.innerHTML = html;
     }
-    resultContainer.innerHTML = html;
   }
 };
 
@@ -123,11 +137,11 @@ const fetchCalendarICS = (url) => {
     dataType: 'text',
     success: (icsContent) => {
       const events = icsToJSON(icsContent);
+	  console.log(events);
       processEvents(events);
     },
     error: (jqXHR, textStatus, errorThrown) => {
       console.error('Failed to fetch calendar ICS file:', errorThrown);
-  //when ical doesnt load, fallback to google calendar iframe
 	  document.getElementById('event-container').innerHTML = '<iframe scrolling="no" src="https://calendar.google.com/calendar/embed?src=voidjosto%40gmail.com&ctz=Europe%2FBrussels&showNav=1&showTabs=1&showCalendars=0&showTz=1&showPrint=0&showDate=0&showTitle=0&mode=AGENDA&color=%23C0CA33" style="border: 0; margin: 10px auto;display: block;width: 100%;" width="600" height="400" frameborder="0"></iframe>';
     }
   });
