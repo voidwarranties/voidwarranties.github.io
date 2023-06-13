@@ -109,7 +109,7 @@ const processEvents = (events) => {
     html += displayEvents(recurringEvents, 'Herhalende activiteiten');
     html += displayEvents(otherEvents, 'Andere activiteiten');
     if (html !== '') {
-      html += '<a href="https://calendar.google.com/calendar/u/0/r?cid=voidjosto@gmail.com">Voeg onze kalender toe aan je google kalender</a>';
+      html += '<a href="https://calendar.google.com/calendar/u/0/r?cid=voidjosto@gmail.com"  target="_blank">Voeg onze kalender toe aan je google kalender</a>';
     } else {
       html += '<p>Er zijn momenteel geen geplande activiteiten gevonden</p>';
     }
