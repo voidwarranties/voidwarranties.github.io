@@ -4,17 +4,19 @@
 <!--
 https://calendar.google.com/calendar/ical/voidjosto%40gmail.com/public/basic.ics
 https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
+
+<iframe scrolling="no" src="https://calendar.google.com/calendar/embed?src=voidjosto%40gmail.com&amp;ctz=Europe%2FBrussels&amp;showNav=1&amp;showTabs=1&amp;showCalendars=0&amp;showTz=1&amp;showPrint=0&amp;showDate=0&amp;showTitle=0&amp;mode=AGENDA&amp;color=%23C0CA33" style="border: 0; margin: 10px auto;display: block;width: 100%;" width="600" height="400" frameborder="0"></iframe>
 -->
+
 
 <div id="event-container">
 	<noscript>Javascript is required to see our calendar</noscript>
-	<iframe scrolling="no" src="https://calendar.google.com/calendar/embed?src=voidjosto%40gmail.com&amp;ctz=Europe%2FBrussels&amp;showNav=1&amp;showTabs=1&amp;showCalendars=0&amp;showTz=1&amp;showPrint=0&amp;showDate=0&amp;showTitle=0&amp;mode=AGENDA&amp;color=%23C0CA33" style="border: 0; margin: 10px auto;display: block;width: 100%;" width="600" height="400" frameborder="0"></iframe>
 </div>
 <script>
 const icsToJSON = (icsContent) => {
   const lines = icsContent.split(/\r?\n/);
   const events = [];
-  const removeTZID = (key) => key.replace(/;TZID=.*$/, '');
+  //const removeTZID = (key) => key.replace(/;TZID=.*$/, '');
   let event = null;
   let currentKey = '';
   let currentValue = '';
@@ -33,10 +35,10 @@ const icsToJSON = (icsContent) => {
       } else {
         // New line
         if (currentKey !== '') {
-          event[currentKey] = convertToDateTime(currentValue.trim());
+          event[currentKey] = convertToDateTime(currentValue.trim(), parts[0].trim().split(";")[1]);
         }
         const parts = line.split(':');
-        currentKey = removeTZID(parts[0].trim());
+        currentKey = parts[0].trim().split(";")[0];
         currentValue = parts.length > 1 ? parts.slice(1).join(':') : '';
       }
     }
@@ -45,19 +47,36 @@ const icsToJSON = (icsContent) => {
   return events;
 };
 
-const convertToDateTime = (value) => {
-  const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z?$/;
+const convertToDateTimeTmp2 = (value, timeZone) => {
+  const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)(.*)$/;
   const match = value.match(dateTimeRegex);
 
   if (match) {
-    const [, year, month, day, hours, minutes, seconds] = match;
-    //const dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds));
-	const dateTime = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}+02:00`);
+    const [, year, month, day, hours, minutes, seconds, isUTC, tzid] = match;
 
-    // Check if the conversion to Date object was successful
-    if (!isNaN(dateTime)) {
-      return dateTime;
-    }
+      const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${isUTC}`;
+      const dateTime = new Date(dateTimeString);
+
+      // Check if the conversion to Date object was successful
+      if (!isNaN(dateTime)) {
+        if (timeZone && timeZone.startsWith("TZID=") ) {
+          // Contains timeZone, return the formatted dateTime
+		  timeZone = timeZone.split("=")[1];
+          return dateTime.toLocaleString([], { timeZone });
+        } else {
+          // Different timeZone, convert to the desired timeZone
+          const options = {
+            timeZone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+          };
+          return dateTime.toLocaleString([], options);
+        }
+      }
   }
 
   return removeEscapedCharacters(value);
@@ -122,7 +141,7 @@ const processEvents = (events) => {
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
    console.log(event['DTSTART']);
-	  const startTime = (event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "2-digit", minute: "2-digit" });
+	  const startTime = (event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
    console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
             eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime}`;
@@ -134,7 +153,7 @@ const processEvents = (events) => {
             eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} om ${startTime}`;
           }
         } else {
-          eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+          eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' });
         }
 
 		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
