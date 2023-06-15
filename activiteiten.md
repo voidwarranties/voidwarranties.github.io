@@ -138,8 +138,11 @@ const processEvents = (events) => {
         const summary = event['SUMMARY'];
         let eventDescription = '';
 
-		const startTime = new Date(event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
-		const endTime = new Date(event['DTEND']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
+		const startDateTime = new Date(event['DTSTART']);
+		const endDateTime = new Date(event['DTEND']);
+		const timeDifference = 12 * 60 * 60 * 1000; // 12 hours -> endDate is shown before endTime when event is at least {0} hours
+		const startTime = startDateTime.toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
+		const endTime = endDateTime.toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
@@ -152,7 +155,11 @@ const processEvents = (events) => {
             eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} van ${startTime} tot ${endTime} uur`;
           }
         } else {
-          eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + " van " + startTime + " tot " + endTime + " uur";
+          eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
+						   + " van " + startTime
+						   + " tot " 
+						   + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) : "" ) 
+						   + endTime + " uur";
         }
 
 		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
