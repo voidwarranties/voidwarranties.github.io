@@ -128,6 +128,16 @@ const processEvents = (events) => {
       }
     }
   });
+  // Sort the recurringEvents by frequency
+  recurringEvents.sort((a, b) => {
+	const freqOrder = { DAILY: 1, WEEKLY: 2, MONTHLY: 3, YEARLY: 4 };
+	const freqA = parseRRule(a['RRULE']).FREQ;
+	const freqB = parseRRule(b['RRULE']).FREQ;
+	return freqOrder[freqA] - freqOrder[freqB];
+  });
+  // Sort the otherEvents array by start date
+  otherEvents.sort((a, b) => new Date(a['DTSTART']) - new Date(b['DTSTART']));
+  
   console.log(recurringEvents);
   console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
