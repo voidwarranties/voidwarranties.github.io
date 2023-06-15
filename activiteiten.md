@@ -48,13 +48,13 @@ const icsToJSON = (icsContent) => {
 };
 
 const convertToDateTime = (value, timeZone) => {
-  const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)(.*)$/;
+  const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})(T(\d{2})(\d{2})(\d{2})(Z?)(.*))?$/;
   const match = value.match(dateTimeRegex);
 
   if (match) {
     const [, year, month, day, hours, minutes, seconds, isUTC, tzid] = match;
 
-      const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${isUTC}`;
+      const dateTimeString = `${year}-${month}-${day}T${hours || '00'}:${minutes || '00'}:${seconds || '00'}${isUTC || ''}`;
       const dateTime = new Date(dateTimeString);
 
       // Check if the conversion to Date object was successful
@@ -74,9 +74,9 @@ const convertToDateTime = (value, timeZone) => {
             minute: 'numeric',
             second: 'numeric',
           };
-          return dateTime.toLocaleString('en-US', options);
-        }
+	return dateTime.toLocaleString('en-US', options);
       }
+    }
   }
 
   return removeEscapedCharacters(value);
