@@ -138,10 +138,10 @@ const processEvents = (events) => {
         const summary = event['SUMMARY'];
         let eventDescription = '';
 
+		const startTime = new Date(event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
+		const endTime = new Date(event['DTEND']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
-	  const startTime = new Date(event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
-	  const endTime = new Date(event['DTEND']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
             eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand van ${startTime} tot ${endTime} uur`;
           } else if (rrule['FREQ'] === 'WEEKLY' && rrule['BYDAY']) {
@@ -152,7 +152,7 @@ const processEvents = (events) => {
             eventDescription = `Jaarlijks op ${rrule['BYMONTHDAY']}-${month} van ${startTime} tot ${endTime} uur`;
           }
         } else {
-          eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + " uur";
+          eventDescription = new Date(event['DTSTART']).toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) + " van " + startTime + " tot " + endTime + " uur";
         }
 
 		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
