@@ -64,7 +64,7 @@ const convertToDateTime = (value, timeZone) => {
         if (timeZone && timeZone.startsWith("TZID=") ) {
           // Contains timeZone, return the formatted dateTime
 		  timeZone = timeZone.split("=")[1];
-          return dateTime.toLocaleString([], { timeZone });
+          return dateTime.toLocaleString('en-US', { timeZone });
         } else {
           // Different timeZone, convert to the desired timeZone
           const options = {
@@ -76,7 +76,7 @@ const convertToDateTime = (value, timeZone) => {
             minute: 'numeric',
             second: 'numeric',
           };
-          return dateTime.toLocaleString([], options);
+          return dateTime.toLocaleString('en-US', options);
         }
       }
   }
@@ -143,7 +143,8 @@ const processEvents = (events) => {
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
    console.log(event['DTSTART']);
-	  const startTime = (event['DTSTART']).toLocaleString('nl-NL', { hour: "numeric", minute: "2-digit" });
+	  //const startTime = (event['DTSTART']).toLocaleString('nl-NL', { hour: "numeric", minute: "2-digit" });
+	  const startTime = new Date(event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
    console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
             eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime}`;
