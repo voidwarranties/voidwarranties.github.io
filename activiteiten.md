@@ -34,10 +34,10 @@ const icsToJSON = (icsContent) => {
         currentValue += line.substring(1);
       } else {
         // New line
-        const parts = line.split(':');
-        if (currentKey !== '') {
-          event[currentKey] = convertToDateTime(currentValue.trim(), parts[0].trim().split(";")[1]);
+	if (currentKey !== '') {
+          event[currentKey] = convertToDateTime(currentValue.trim(), currentKey.split(";")[1]);
         }
+        const parts = line.split(':');
         currentKey = parts[0].trim().split(";")[0];
         currentValue = parts.length > 1 ? parts.slice(1).join(':') : '';
       }
