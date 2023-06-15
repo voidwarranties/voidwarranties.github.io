@@ -34,7 +34,7 @@ const icsToJSON = (icsContent) => {
         currentValue += line.substring(1);
       } else {
         // New line
-	if (currentKey !== '') {
+        if (currentKey !== '') {
           event[currentKey] = convertToDateTime(currentValue.trim(), currentKey.split(";")[1]);
         }
         const parts = line.split(':');
@@ -123,9 +123,13 @@ const processEvents = (events) => {
   events.forEach((event) => {
     if (event['RRULE']) {
       recurringEvents.push(event);
-    } else {
+    } else {']);
+	  console.log("1 time event");
       const eventStartDate = new Date(event['DTSTART']);
+	  console.log("eventStartDate: " + eventStartDate);
+	  console.log("currentDate: " + currentDate);
       if (eventStartDate >= currentDate) {
+	    console.log("startdate is today or in future");
         otherEvents.push(event);
       }
     }
