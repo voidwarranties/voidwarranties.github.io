@@ -52,7 +52,7 @@ const convertToDateTime = (value, timeZone) => {
   const match = value.match(dateTimeRegex);
 
   if (match) {
-    const [, year, month, day, hours, minutes, seconds, isUTC, tzid] = match;
+    const [, year, month, day, , hours, minutes, seconds, isUTC, tzid] = match;
 
       const dateTimeString = `${year}-${month}-${day}T${hours || '00'}:${minutes || '00'}:${seconds || '00'}${isUTC || ''}`;
       const dateTime = new Date(dateTimeString);
@@ -61,22 +61,13 @@ const convertToDateTime = (value, timeZone) => {
       if (!isNaN(dateTime)) {
         if (timeZone && timeZone.startsWith("TZID=") ) {
           // Contains timeZone, return the formatted dateTime
-		  timeZone = timeZone.split("=")[1];
+	  timeZone = timeZone.split("=")[1];
           return dateTime.toLocaleString('en-US', { timeZone });
         } else {
           // Different timeZone, convert to the desired timeZone
-          const options = {
-            timeZone,
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-          };
-	return dateTime.toLocaleString('en-US', options);
-      }
-    }
+          return dateTime.toLocaleString('en-US', { timeZone: 'Europe/Brussels' } );
+	}
+     }
   }
 
   return removeEscapedCharacters(value);
