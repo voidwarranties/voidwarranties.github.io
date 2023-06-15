@@ -64,7 +64,7 @@ const convertToDateTime = (value, timeZone) => {
         if (timeZone && timeZone.startsWith("TZID=") ) {
           // Contains timeZone, return the formatted dateTime
 		  timeZone = timeZone.split("=")[1];
-          return dateTime.toLocaleString([nl-NL], { timeZone });
+          return dateTime.toLocaleString('nl-NL', { timeZone });
         } else {
           // Different timeZone, convert to the desired timeZone
           const options = {
@@ -76,7 +76,7 @@ const convertToDateTime = (value, timeZone) => {
             minute: 'numeric',
             second: 'numeric',
           };
-          return dateTime.toLocaleString([nl-NL], options);
+          return dateTime.toLocaleString('nl-NL', options);
         }
       }
   }
@@ -123,7 +123,7 @@ const processEvents = (events) => {
   events.forEach((event) => {
     if (event['RRULE']) {
       recurringEvents.push(event);
-    } else {']);
+    } else {
       const eventStartDate = new Date(event['DTSTART']);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
