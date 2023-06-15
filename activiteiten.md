@@ -47,7 +47,7 @@ const icsToJSON = (icsContent) => {
   return events;
 };
 
-const convertToDateTimeTmp2 = (value, timeZone) => {
+const convertToDateTime = (value, timeZone) => {
   const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)(.*)$/;
   const match = value.match(dateTimeRegex);
 
