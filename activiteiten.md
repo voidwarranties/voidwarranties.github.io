@@ -143,7 +143,7 @@ const processEvents = (events) => {
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
    console.log(event['DTSTART']);
-	  const startTime = (event['DTSTART']).toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
+	  const startTime = (event['DTSTART']).toLocaleString('nl-NL', { hour: "numeric", minute: "2-digit" });
    console.log(startTime);
           if (rrule['FREQ'] === 'MONTHLY' && rrule['BYMONTHDAY']) {
             eventDescription = `Elke ${rrule['BYMONTHDAY']} van de maand om ${startTime}`;
