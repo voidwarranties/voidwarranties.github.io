@@ -215,8 +215,8 @@ const processEvents = (events) => {
 			 +  `<div class="event-location">${location}</div>`
 			 +  `<p class="event-description">${description}</p>`
 			 +  '</div>'
-			 +  '</li>';
-      });*/
+			 +  '</li>';*/
+      });
       html += '</ul>';
       return html;
     }
