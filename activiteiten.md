@@ -86,7 +86,7 @@ const getDayOfWeek = (byDay) => {
   const byDayList = byDay.split(',').map(day => day.trim());
   const dayOfWeekNames = [];
   byDayList.forEach((day) => {
-	const dayOfWeekString = day.match(/-/) ? day.replace(/-1.*/,'de laatste ').replace(/-2.*/,'de voorlaatste ') : day.match(/\d+/) ? "de " + day.match(/\d+/)[0] + "e" : "" ;
+	let dayOfWeekString = day.match(/-/) ? day.replace(/-1.*/,'de laatste ').replace(/-2.*/,'de voorlaatste ') : day.match(/\d+/) ? "de " + day.match(/\d+/)[0] + "e" : "" ;
 	day = day.slice(-2); //in case byday contains a number or negative number (for example 1st friday or last friday)
     const byDayIndex = weekdays.indexOf(day);
     if (byDayIndex !== -1) {
@@ -216,7 +216,7 @@ const processEvents = (events) => {
 			 +  `<p class="event-description">${description}</p>`
 			 +  '</div>'
 			 +  '</li>';*/
-      });
+      }); //end of foreach event
       html += '</ul>';
       return html;
     }
