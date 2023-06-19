@@ -20,7 +20,6 @@ const icsToJSON = (icsContent) => {
   let event = null;
   let currentKey = '';
   let currentValue = '';
-
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     if (line.startsWith('BEGIN:VEVENT')) {
@@ -43,36 +42,29 @@ const icsToJSON = (icsContent) => {
       }
     }
   }
-
   return events;
 };
-
 const convertToDateTime = (value, timeZone) => {
   const dateTimeRegex = /^(\d{4})(\d{2})(\d{2})(T(\d{2})(\d{2})(\d{2})(Z?)(.*))?$/;
   const match = value.match(dateTimeRegex);
-
   if (match) {
     const [, year, month, day, , hours, minutes, seconds, isUTC, tzid] = match;
-
       const dateTimeString = `${year}-${month}-${day}T${hours || '00'}:${minutes || '00'}:${seconds || '00'}${isUTC || ''}`;
       const dateTime = new Date(dateTimeString);
-
       // Check if the conversion to Date object was successful
       if (!isNaN(dateTime)) {
         if (timeZone && timeZone.startsWith("TZID=") ) {
           // Contains timeZone, return the formatted dateTime
-	  timeZone = timeZone.split("=")[1];
+		  timeZone = timeZone.split("=")[1];
           return dateTime.toLocaleString('en-US', { timeZone });
         } else {
           // Different timeZone, convert to the desired timeZone
           return dateTime.toLocaleString('en-US', { timeZone: 'Europe/Brussels' } );
-	}
-     }
+		}
+    }
   }
-
   return removeEscapedCharacters(value);
 };
-
 const removeEscapedCharacters = (value) => {
   return value
     //.replace(/\\(.)/g, '$1') // Remove the backslash before escaped characters
@@ -80,19 +72,15 @@ const removeEscapedCharacters = (value) => {
     .replace(/\\;/g, ';') // Replace "\;" with a semicolon
     .replace(/\\,/g, ','); // Replace "\," with a comma
 };
-
 const parseRRule = (rrule) => {
   const ruleParts = rrule.split(';');
   const ruleObject = {};
-
   ruleParts.forEach((part) => {
     const [key, value] = part.split('=');
     ruleObject[key] = value;
   });
-
   return ruleObject;
 };
-
 const getDayOfWeek = (byDay) => {
   const weekdays = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
   const byDayIndex = weekdays.indexOf(byDay);
@@ -103,17 +91,15 @@ const getDayOfWeek = (byDay) => {
   }
   return '';
 };
-
 const processEvents = (events) => {
   const currentDate = new Date();
   const recurringEvents = [];
   const otherEvents = [];
-
   events.forEach((event) => {
     if (event['RRULE']) {
       recurringEvents.push(event);
     } else {
-      const eventStartDate = new Date(event['DTSTART']);
+      const eventStartDate = new Date(event['DTEND']);
       if (eventStartDate >= currentDate) {
         otherEvents.push(event);
       }
@@ -128,7 +114,6 @@ const processEvents = (events) => {
   });
   // Sort the otherEvents array by start date
   otherEvents.sort((a, b) => new Date(a['DTSTART']) - new Date(b['DTSTART']));
-  
   console.log(recurringEvents);
   console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
@@ -138,7 +123,6 @@ const processEvents = (events) => {
       eventArray.forEach((event) => {
         const summary = event['SUMMARY'];
         let eventDescription = '';
-
 		const startDateTime = new Date(event['DTSTART']);
 		const endDateTime = new Date(event['DTEND']);
 		const timeDifference = 12 * 60 * 60 * 1000; // 12 hours -> endDate is shown before endTime when event is at least {0} hours
@@ -157,23 +141,20 @@ const processEvents = (events) => {
           }
         } else {
           eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
-						   + " van " + startTime
-						   + " tot " 
-						   + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) : "" ) 
-						   + endTime + " uur";
+	   + " van " + startTime + ( endDateTime - startDateTime >= timeDifference ? " uur" : "" )
+	   + " tot " 
+	   + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) +" om " : "" ) 
+	   + endTime + " uur";
         }
-
-		const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
-        const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
-
-		html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
+	const location = event['LOCATION'] ? `<br>📍 ${event['LOCATION']}` : '';
+	const description = event['DESCRIPTION'] ? `<br><i>${event['DESCRIPTION']}</i>` : '';
+	html += `<li>${summary} - ${eventDescription}${location}${description}</li>`;
       });
       html += '</ul>';
       return html;
     }
     return '';
   };
-
   const resultContainer = document.getElementById('event-container');
   if (resultContainer) {
     let html = '';
@@ -184,7 +165,6 @@ const processEvents = (events) => {
     }
   }
 };
-
 const fetchCalendarICS = (url) => {
   $.ajax({
     url: url,
@@ -200,10 +180,7 @@ const fetchCalendarICS = (url) => {
     }
   });
 };
-
 const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical;' // Replace with the actual URL of your calendar ICS file
 fetchCalendarICS(calendarICSUrl);
-
   </script>
-
 {% include quote.html %}
