@@ -13,6 +13,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 	<noscript>Javascript is required to see our calendar</noscript>
 </div>
 <script>
+/*jshint esversion: 6 */
 const icsToJSON = (icsContent) => {
   const lines = icsContent.split(/\r?\n/);
   const events = [];
@@ -99,7 +100,6 @@ const getDayOfWeek = (byDay) => {
   });
   return dayOfWeekNames;
 };
-
 const processEvents = (events) => {
   const currentDate = new Date();
   const recurringEvents = [];
@@ -157,33 +157,33 @@ const processEvents = (events) => {
 			case 'DAILY':
 			  // Handle daily recurrence
 			  // RRULE:FREQ=DAILY;INTERVAL=2
-			  eventDescription += ( rrule['INTERVAL'] )? 'Dagelijks' : 'Elke ' + rrule['INTERVAL'] + ' dagen';
+			  eventDescription += ( !rrule['INTERVAL'] )? 'Dagelijks' : 'Elke ' + rrule['INTERVAL'] + ' dagen';
 			  break;
 			case 'WEEKLY':
 			  // Handle weekly recurrence
 			  // RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=WE,FR
-			  eventDescription += ( rrule['INTERVAL'] )? 'Wekelijks' : 'Elke ' + rrule['INTERVAL'] + ' weken';
+			  eventDescription += ( !rrule['INTERVAL'] )? 'Wekelijks' : 'Elke ' + rrule['INTERVAL'] + ' weken';
 			  if ( rrule['BYDAY'] ){
 				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ) ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ');
-			  };
+			  }
 			  break;
 			case 'MONTHLY':
 			  // Handle monthly recurrence
 			  // RRULE:FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1,5,10
 			  // RRULE:FREQ=MONTHLY;BYDAY=1FR,5FR,-1FR,-2FR
-			  eventDescription += ( rrule['INTERVAL'] )? 'Maandelijks' : 'Elke ' + rrule['INTERVAL'] + ' maanden';
+			  eventDescription += ( !rrule['INTERVAL'] )? 'Maandelijks' : 'Elke ' + rrule['INTERVAL'] + ' maanden';
 			  if ( rrule['BYMONTHDAY'] ){
 				  eventDescription += ' op de ' + rrule['BYMONTHDAY'] + 'e'; //add code for multiple monthdays
 			  }
 			  if ( rrule['BYDAY'] ){
 				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ) ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ');
-			  };
+			  }
 			  break;
 			case 'YEARLY':
 			  // Handle yearly recurrence
 			  // RRULE:FREQ=YEARLY;INTERVAL=2;BYMONTH=6;BYMONTHDAY=21;UNTIL=20251118T110000Z
-			  eventDescription += ( rrule['INTERVAL'] )? 'Jaarlijks' : 'Elke ' + rrule['INTERVAL'] + ' jaar';
-			  eventDescription += ' op ' + rrule['BYMONTHDAY'] + ' ' +  + new Date(2023, parseInt(rrule['BYMONTH']), 1).toLocaleString('nl-NL', { month: 'long' });
+			  eventDescription += ( !rrule['INTERVAL'] )? 'Jaarlijks' : 'Elke ' + rrule['INTERVAL'] + ' jaar';
+			  eventDescription += ' op ' + rrule['BYMONTHDAY'] + ' ' + new Date(2023, parseInt(rrule['BYMONTH']), 1).toLocaleString('nl-NL', { month: 'long' });
 			  break;
 			default:
 			  // RRULE is not daily, weekly, monthly or yearly, so it must be secondly, minutely or hourly for some reason
@@ -191,11 +191,10 @@ const processEvents = (events) => {
 			  break;
 		  }
 		} else {
-			  eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
-						   + " van " + startTime
-						   + " tot " 
-						   + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) : "" ) 
-						   + endTime + " uur";
+			  eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+			  eventDescription += " van " + startTime;
+			  eventDescription += " tot " + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric'}) : "" );
+			  eventDescription +=  endTime + " uur";
 		}
 		eventDescription += ` van ${startTime} tot ${endTime} uur`;
 		console.log(eventDescription);
@@ -247,7 +246,7 @@ const fetchCalendarICS = (url) => {
     }
   });
 };
-const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical;' // Replace with the actual URL of your calendar ICS file
+const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical'; // Replace with the actual URL of your calendar ICS file
 fetchCalendarICS(calendarICSUrl);
   </script>
 
