@@ -8,7 +8,6 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 <iframe scrolling="no" src="https://calendar.google.com/calendar/embed?src=voidjosto%40gmail.com&amp;ctz=Europe%2FBrussels&amp;showNav=1&amp;showTabs=1&amp;showCalendars=0&amp;showTz=1&amp;showPrint=0&amp;showDate=0&amp;showTitle=0&amp;mode=AGENDA&amp;color=%23C0CA33" style="border: 0; margin: 10px auto;display: block;width: 100%;" width="600" height="400" frameborder="0"></iframe>
 -->
 
-
 <div id="event-container">
 	<noscript>Javascript is required to see our calendar</noscript>
 </div>
@@ -134,12 +133,12 @@ const processEvents = (events) => {
   console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
     if (eventArray.length > 0) {
-      let html = `<h3>${heading}</h3>`;
+      let html = '<h3>' + heading + '</h3>';
       html += '<ul>';
       eventArray.forEach((event) => {
         const summary = event['SUMMARY'];
-		const location = event['LOCATION'] ? `<i class="fa-solid fa-location-dot"></i> <i>${event['LOCATION']}</i>` : '';
-        const description = event['DESCRIPTION'] ? `<i class="fa-solid fa-circle-info"></i><i>${event['DESCRIPTION']}</i>` : '';
+		const location = event['LOCATION'] ? '<i class="fa-solid fa-location-dot"></i> <i>' + event['LOCATION'] + '</i>' : '';
+        const description = event['DESCRIPTION'] ? '<i class="fa-solid fa-circle-info"></i> <i>' + event['DESCRIPTION'] + '</i>' : '';
         let eventDescription = '';
 		const startDateTime = new Date(event['DTSTART']);
 		const endDateTime = new Date(event['DTEND']);
@@ -193,11 +192,10 @@ const processEvents = (events) => {
 		  }
 		} else {
 			  eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
-			  eventDescription += " van " + startTime;
-			  eventDescription += " tot " + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric'}) : "" );
-			  eventDescription +=  endTime + " uur";
 		}
-		eventDescription += ` van ${startTime} tot ${endTime} uur`;
+		eventDescription += ' van ' + startTime;
+		eventDescription += ' tot ' + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric'}) : "" );
+		eventDescription +=  endTime + ' uur';
 		console.log(eventDescription);
 		html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`
 		/*html += '<li class="event">'
@@ -249,6 +247,5 @@ const fetchCalendarICS = (url) => {
 };
 const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical'; // Replace with the actual URL of your calendar ICS file
 fetchCalendarICS(calendarICSUrl);
-  </script>
-
+</script>
 {% include quote.html %}
