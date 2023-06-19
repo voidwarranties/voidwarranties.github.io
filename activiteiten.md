@@ -93,7 +93,6 @@ const getDayOfWeek = (byDay) => {
       const date = new Date();
       date.setDate(date.getDate() + ((7 + byDayIndex - date.getDay()) % 7));
       const dayOfWeekName = date.toLocaleString('nl-NL', { weekday: 'long' });
-
 	  dayOfWeekString += dayOfWeekName;
     }
     dayOfWeekNames.push(dayOfWeekString);
@@ -154,9 +153,6 @@ const processEvents = (events) => {
 		const year = startDateTime.toLocaleString('nl-NL', { year: '2-digit'});
         if (event['RRULE']) {
           const rrule = parseRRule(event['RRULE']);
-
-
-
 		  switch ( rrule['FREQ'] ) {
 			case 'DAILY':
 			  // Handle daily recurrence
@@ -169,8 +165,6 @@ const processEvents = (events) => {
 			  eventDescription += ( rrule['INTERVAL'] )? 'Wekelijks' : 'Elke ' + rrule['INTERVAL'] + ' weken';
 			  if ( rrule['BYDAY'] ){
 				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ) ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ');
-
-
 			  };
 			  break;
 			case 'MONTHLY':
@@ -190,8 +184,6 @@ const processEvents = (events) => {
 			  // RRULE:FREQ=YEARLY;INTERVAL=2;BYMONTH=6;BYMONTHDAY=21;UNTIL=20251118T110000Z
 			  eventDescription += ( rrule['INTERVAL'] )? 'Jaarlijks' : 'Elke ' + rrule['INTERVAL'] + ' jaar';
 			  eventDescription += ' op ' + rrule['BYMONTHDAY'] + ' ' +  + new Date(2023, parseInt(rrule['BYMONTH']), 1).toLocaleString('nl-NL', { month: 'long' });
-
-
 			  break;
 			default:
 			  // RRULE is not daily, weekly, monthly or yearly, so it must be secondly, minutely or hourly for some reason
@@ -200,16 +192,10 @@ const processEvents = (events) => {
 		  }
 		} else {
 			  eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})
-
 						   + " van " + startTime
 						   + " tot " 
 						   + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) : "" ) 
 						   + endTime + " uur";
-
-
-
-
-
 		}
 		eventDescription += ` van ${startTime} tot ${endTime} uur`;
 		console.log(eventDescription);
