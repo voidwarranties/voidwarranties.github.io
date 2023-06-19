@@ -164,7 +164,8 @@ const processEvents = (events) => {
 			  // RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=WE,FR
 			  eventDescription += ( !rrule['INTERVAL'] )? 'Wekelijks' : 'Elke ' + rrule['INTERVAL'] + ' weken';
 			  if ( rrule['BYDAY'] ){
-				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ) ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ');
+				  console.log( "weekly byday: " + rrule['BYDAY'] );
+				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ') );
 			  }
 			  break;
 			case 'MONTHLY':
@@ -176,7 +177,7 @@ const processEvents = (events) => {
 				  eventDescription += ' op de ' + rrule['BYMONTHDAY'] + 'e'; //add code for multiple monthdays
 			  }
 			  if ( rrule['BYDAY'] ){
-				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ) ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ');
+				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ') );
 			  }
 			  break;
 			case 'YEARLY':
