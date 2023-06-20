@@ -26,6 +26,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 	  background-color: black;
 	  background-position: center;
 	  background-size: cover
+	  background: url('https://we.voidwarranties.be/assets/img/events/default.jpg');
 	  box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, .9);
     }
     .event-date {
@@ -295,7 +296,7 @@ const processEvents = (events) => {
 		//html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`;
 		//html += '<!--';
 		html += '<li class="event">'
-			 +  '<div class="event-date" style="background: url(\'https://source.unsplash.com/120x120/?' + summary.replace(/[\[\]&(),]/g, '').split(' ')[0] + '&img=1\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
+			 +  '<div class="event-date-bg" style="background: url(\'https://we.voidwarranties.be/assets/img/events/' + summary.replace(/[\[\]&(),]/g, '').split(' ')[0] + '.jpg\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
 			 +  '<div class="event-date">'
 			 +  '<span class="moment">' + moment + '</span>'
 			 +  '<span class="day">' + day + '</span>'
