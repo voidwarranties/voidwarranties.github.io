@@ -43,6 +43,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
     }
     .event-date .day {
       font-size: 50px;
+      text-transform: uppercase;
       margin-bottom: 0;
       color: #ffffff;
 	  line-height: 1em;
