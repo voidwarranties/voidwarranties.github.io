@@ -25,7 +25,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       height: 120px;
 	  background-color: black;
 	  background-position: center;
-	  background-size: cover
+	  background-size: cover;
 	  background: url('https://we.voidwarranties.be/assets/img/events/default.jpg');
 	  box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, .9);
     }
