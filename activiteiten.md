@@ -45,6 +45,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       font-weight: bold;
       margin-bottom: 0;
       color: #ffffff;
+	  line-height: 1em;
     }
     .event-date .moment, .event-date .month-year {
       font-size: 14px;
@@ -63,8 +64,11 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
     .event-details {
       flex: 1;
       margin-left: 20px;
+      height: 120px;
       max-height: 120px;
       overflow: hidden;
+	  display: flex;
+	  align-items: center;
     }
     .event-title {
       margin-top: 0;
@@ -73,7 +77,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       flex-wrap: wrap;
     }
     .event-title h3, .event-title h2 {
-      margin: 0;
+      margin: 0 10px 0 0;
       word-wrap: break-word;
     }
     .event-location {
@@ -228,7 +232,7 @@ const processEvents = (events) => {
 		const weekday = startDateTime.toLocaleString('nl-NL', { weekday: 'long'});
 		const weekdayShort = startDateTime.toLocaleString('nl-NL', { weekday: 'short'});
 		const day = startDateTime.toLocaleString('nl-NL', { day: 'numeric'});
-		const month = startDateTime.toLocaleString('nl-NL', { month: 'numeric'});
+		const month = startDateTime.toLocaleString('nl-NL', { month: 'short'});
 		const year = startDateTime.toLocaleString('nl-NL', { year: '2-digit'});
         if (event.RRULE) {
           rrule = parseRRule(event.RRULE);
@@ -284,14 +288,14 @@ const processEvents = (events) => {
 			 +  '<div class="event-date">'
 			 +  '<span class="moment">' + weekday + '</span>'
 			 +  '<span class="day">' + day + '</span>'
-			 +  '<span class="month-year">' + month + ' ' + year + '</span>'
-			 +  '<span class="time">' + startTime + ' uur</span>'
+			 +  '<span class="month-year">' + month + ' \'' + year + '</span>'
+			 +  '<span class="time"> om ' + startTime + ' uur</span>'
 			 +  '</div>'
 			 +  '</div>'
 			 +  '<div class="event-details">'
 			 +  '<div class="event-title"><h3>' + summary + '</h3> ' + eventDescription + '</div>'
-			 +  '<div class="event-location"><i class="fa-solid fa-location-dot"></i> ' + location + '</div>'
-			 +  '<p class="event-description"><i class="fa-solid fa-circle-info"></i> ' + description + '</p>'
+			 +  '<div class="event-location"> ' + location + '</div>'
+			 +  '<p class="event-description"> ' + description + '</p>'
 			 +  '</div>'
 			 +  '</li>';
 		html += '-->';
