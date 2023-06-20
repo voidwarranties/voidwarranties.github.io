@@ -66,14 +66,16 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       margin-left: 20px;
       height: 120px;
       max-height: 120px;
-      overflow: hidden;
+      overflow: scroll;
 	  display: flex;
-	  align-items: center;
+	  align-items: start;
+	  flex-direction: column;
+	  justify-content: start;
     }
     .event-title {
       margin-top: 0;
       display: flex;
-      align-items: center;
+      align-items: end;
       flex-wrap: wrap;
     }
     .event-title h3, .event-title h2 {
@@ -90,8 +92,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
     }
     .event-description {
       margin-top: 5px;
-      font-size: 16px;
-      line-height: 1.5;
+      font-size: 14px;
     }
   </style>
 <script>
@@ -220,32 +221,35 @@ const processEvents = (events) => {
       let html = '<h3>' + heading + '</h3>';
       html += '<ul>';
       eventArray.forEach((event) => {
-        const summary = event.SUMMARY ? event.SUMMARY.replace('VoidWarranties - ', '') : '';
-		const location = event.LOCATION ? '<i class="fa-solid fa-location-dot"></i> <i><a href="https://www.openstreetmap.org/search?query=' + event.LOCATION + '" target="_blank">' + event.LOCATION + '</a></i>' : '';
-        const description = event.DESCRIPTION ? '<i class="fa-solid fa-circle-info"></i> <i>' + event.DESCRIPTION + '</i>' : '';
-        let eventDescription = '';
 		const startDateTime = new Date(event.DTSTART);
 		const endDateTime = new Date(event.DTEND);
 		const timeDifference = 12 * 60 * 60 * 1000; // 12 hours -> endDate is shown before endTime when event is at least {0} hours
 		const startTime = startDateTime.toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
 		const endTime = endDateTime.toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
-		const weekday = startDateTime.toLocaleString('nl-NL', { weekday: 'long'});
-		const weekdayShort = startDateTime.toLocaleString('nl-NL', { weekday: 'short'});
-		const day = startDateTime.toLocaleString('nl-NL', { day: 'numeric'});
-		const month = startDateTime.toLocaleString('nl-NL', { month: 'short'});
-		const year = startDateTime.toLocaleString('nl-NL', { year: '2-digit'});
+        const summary = event.SUMMARY ? event.SUMMARY.replace('VoidWarranties - ', '') : '';
+		const location = event.LOCATION ? '<i class="fa-solid fa-location-dot"></i> <i><a href="https://www.openstreetmap.org/search?query=' + event.LOCATION + '" target="_blank">' + event.LOCATION + '</a></i>' : '';
+        const description = event.DESCRIPTION ? '<i class="fa-solid fa-circle-info"></i> <i>' + event.DESCRIPTION + '</i>' : '';
+        let eventDescription = '';
+		let moment = '';
+		let day = startDateTime.toLocaleString('nl-NL', { day: 'numeric'}); //date or weekday
+		let monthYear = '&nbsp;'; //month and year or empty
+		let time = ''; //starttime - endtime or starttime (if longer than 12h)
         if (event.RRULE) {
           rrule = parseRRule(event.RRULE);
 		  switch ( rrule.FREQ ) {
 			case 'DAILY':
 			  // Handle daily recurrence
 			  // RRULE:FREQ=DAILY;INTERVAL=2
-			  eventDescription += ( !rrule.INTERVAL )? 'Dagelijks' : 'Elke ' + rrule.INTERVAL + ' dagen';
+			  moment = ( !rrule.INTERVAL )? 'Dagelijks' : 'Elke ' + rrule.INTERVAL + ' dagen';
+			  eventDescription += moment;
+			  day = '<i class="fa fa-clock"></i>';
 			  break;
 			case 'WEEKLY':
 			  // Handle weekly recurrence
 			  // RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=WE,FR
-			  eventDescription += ( !rrule.INTERVAL )? 'Wekelijks' : 'Elke ' + rrule.INTERVAL + ' weken';
+			  moment = ( !rrule.INTERVAL )? 'Wekelijks' : 'Elke ' + rrule.INTERVAL + ' weken';
+			  eventDescription += moment;
+			  day = startDateTime.toLocaleString('nl-NL', { weekday: 'short'});
 			  if ( rrule.BYDAY ){
 				  console.log( "weekly byday: " + rrule.BYDAY );
 				  eventDescription += ' op ' + ( rrule.BYDAY.split(',').length > 2 ? getDayOfWeek(rrule.BYDAY).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule.BYDAY).join(' en ') );
@@ -255,19 +259,25 @@ const processEvents = (events) => {
 			  // Handle monthly recurrence
 			  // RRULE:FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1,5,10
 			  // RRULE:FREQ=MONTHLY;BYDAY=1FR,5FR,-1FR,-2FR
-			  eventDescription += ( !rrule.INTERVAL )? 'Maandelijks' : 'Elke ' + rrule.INTERVAL + ' maanden';
+			  moment = ( !rrule.INTERVAL )? 'Maandelijks' : 'Elke ' + rrule.INTERVAL + ' maanden';
+			  eventDescription += moment;
 			  if ( rrule.BYMONTHDAY ){
-				  eventDescription += ' op de ' + rrule.BYMONTHDAY + 'e'; //add code for multiple monthdays
+				  day = rrule.BYMONTHDAY + 'e';
+				  eventDescription += ' op de ' + day ; //add code for multiple monthdays
 			  }
 			  if ( rrule.BYDAY ){
-				  eventDescription += ' op ' + ( rrule.BYDAY.split(',').length > 2 ? getDayOfWeek(rrule.BYDAY).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule.BYDAY).join(' en ') );
+				  day = ( rrule.BYDAY.split(',').length > 2 ? getDayOfWeek(rrule.BYDAY).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule.BYDAY).join(' en ') );
+				  eventDescription += ' op ' + day;
 			  }
 			  break;
 			case 'YEARLY':
 			  // Handle yearly recurrence
 			  // RRULE:FREQ=YEARLY;INTERVAL=2;BYMONTH=6;BYMONTHDAY=21;UNTIL=20251118T110000Z
-			  eventDescription += ( !rrule.INTERVAL )? 'Jaarlijks' : 'Elke ' + rrule.INTERVAL + ' jaar';
-			  eventDescription += ' op ' + rrule.BYMONTHDAY + ' ' + new Date(2023, parseInt(rrule.BYMONTH), 1).toLocaleString('nl-NL', { month: 'long' });
+			  moment = ( !rrule.INTERVAL )? 'Jaarlijks' : 'Elke ' + rrule.INTERVAL + ' jaar';
+			  eventDescription += moment;
+			  day = rrule.BYMONTHDAY;
+			  monthYear = new Date(2023, parseInt(rrule.BYMONTH), day).toLocaleString('nl-NL', { month: 'long' });
+			  eventDescription += ' op ' + day + ' ' + monthYear;
 			  break;
 			default:
 			  // RRULE is not daily, weekly, monthly or yearly, so it must be secondly, minutely or hourly for some reason
@@ -275,21 +285,24 @@ const processEvents = (events) => {
 			  break;
 		  }
 		} else {
-			  eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+			eventDescription = startDateTime.toLocaleString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+			moment = startDateTime.toLocaleString('nl-NL', { weekday: 'long'});
+			monthYear = startDateTime.toLocaleString('nl-NL', { month: 'short', year: '2-digit'});
 		}
+		time = ( endDateTime - startDateTime >= timeDifference ? 'om ' + startTime + ' uur' : startTime + ' - ' + endTime );
 		eventDescription += ' van ' + startTime;
 		eventDescription += ' tot ' + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric'}) : "" );
 		eventDescription += ' ' + endTime + ' uur';
 		console.log(eventDescription);
-		html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`;
-		html += '<!--';
+		//html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`;
+		//html += '<!--';
 		html += '<li class="event">'
-			 +  '<div class="event-date" style="background: url(\'https://source.unsplash.com/120x120/?hacker,' + summary.split(' ').join(',') + '&img=1\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
+			 +  '<div class="event-date" style="background: url(\'https://source.unsplash.com/120x120/?hacker,' + summary.replace(/[\[\]&(),]/g, '').split(' ')[0] + '&img=1\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
 			 +  '<div class="event-date">'
-			 +  '<span class="moment">' + weekday + '</span>'
+			 +  '<span class="moment">' + moment + '</span>'
 			 +  '<span class="day">' + day + '</span>'
-			 +  '<span class="month-year">' + month + ' \'' + year + '</span>'
-			 +  '<span class="time"> om ' + startTime + ' uur</span>'
+			 +  '<span class="month-year">' + monthYear + '</span>'
+			 +  '<span class="time">' + time + '</span>'
 			 +  '</div>'
 			 +  '</div>'
 			 +  '<div class="event-details">'
@@ -298,7 +311,7 @@ const processEvents = (events) => {
 			 +  '<p class="event-description"> ' + description + '</p>'
 			 +  '</div>'
 			 +  '</li>';
-		html += '-->';
+		//html += '-->';
       }); //end of foreach event
       html += '</ul>';
       return html;
