@@ -8,9 +8,88 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 <iframe scrolling="no" src="https://calendar.google.com/calendar/embed?src=voidjosto%40gmail.com&amp;ctz=Europe%2FBrussels&amp;showNav=1&amp;showTabs=1&amp;showCalendars=0&amp;showTz=1&amp;showPrint=0&amp;showDate=0&amp;showTitle=0&amp;mode=AGENDA&amp;color=%23C0CA33" style="border: 0; margin: 10px auto;display: block;width: 100%;" width="600" height="400" frameborder="0"></iframe>
 -->
 
+
 <div id="event-container">
+	<p> Activiteiten worden geladen, even geduld...</p>
 	<noscript>Javascript is required to see our calendar</noscript>
 </div>
+<style>
+    .event {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .event-date-bg {
+      width: 120px;
+      min-width: 120px;
+      height: 120px;
+	  background-color: black;
+	  background-position: center;
+	  background-size: cover
+	  box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, .9);
+    }
+    .event-date {
+      width: 120px;
+      min-width: 120px;
+      height: 120px;
+      text-align: center;
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+	  backdrop-filter: blur(2px);
+    }
+    .event-date .day {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 0;
+      color: #ffffff;
+    }
+    .event-date .moment, .event-date .month-year {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #ffffff;
+	  margin: 0;
+    }
+    .event-date .time {
+      font-size: 12px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+    .event-details {
+      flex: 1;
+      margin-left: 20px;
+      max-height: 120px;
+      overflow: hidden;
+    }
+    .event-title {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .event-title h3, .event-title h2 {
+      margin: 0;
+      word-wrap: break-word;
+    }
+    .event-location {
+      font-size: 16px;
+      color: #777777;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 200px;
+    }
+    .event-description {
+      margin-top: 5px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  </style>
 <script>
 /*jshint esversion: 6 */
 const icsToJSON = (icsContent) => {
@@ -103,18 +182,19 @@ const processEvents = (events) => {
   const currentDate = new Date();
   const recurringEvents = [];
   const otherEvents = [];
+  let rrule = '';
   events.forEach((event) => {
-    if (event['RRULE']) {
+    if (event.RRULE) {
 	  //if RRULE:UNTIL datetime is futuredate then push
-	  const recurringUntil = parseRRule(event['RRULE']);
-	  if ( !recurringUntil['UNTIL'] ) {
+	  rrule = parseRRule(event.RRULE);
+	  if ( !rrule.UNTIL ) {
 		  recurringEvents.push(event); //push recurringevent if it doesnt have enddate
-	  } else if ( convertToDateTime( recurringUntil['UNTIL'] , undefined) >= currentDate) {
+	  } else if ( convertToDateTime( rrule.UNTIL , undefined) >= currentDate) {
 		  recurringEvents.push(event);
 	  }
 	  //else if (startdate + repeatsXTimes * frequency) >= currentDate
     } else {
-      const eventEndDate = new Date(event['DTEND']);
+      const eventEndDate = new Date(event.DTEND);
       if (eventEndDate >= currentDate) {
         otherEvents.push(event);
       }
@@ -123,12 +203,12 @@ const processEvents = (events) => {
   // Sort the recurringEvents by frequency
   recurringEvents.sort((a, b) => {
 	const freqOrder = { DAILY: 1, WEEKLY: 2, MONTHLY: 3, YEARLY: 4 };
-	const freqA = parseRRule(a['RRULE']).FREQ;
-	const freqB = parseRRule(b['RRULE']).FREQ;
+	const freqA = parseRRule(a.RRULE).FREQ;
+	const freqB = parseRRule(b.RRULE).FREQ;
 	return freqOrder[freqA] - freqOrder[freqB];
   });
   // Sort the otherEvents array by start date
-  otherEvents.sort((a, b) => new Date(a['DTSTART']) - new Date(b['DTSTART']));
+  otherEvents.sort((a, b) => new Date(a.DTSTART) - new Date(b.DTSTART));
   console.log(recurringEvents);
   console.log(otherEvents);
   const displayEvents = (eventArray, heading) => {
@@ -136,12 +216,12 @@ const processEvents = (events) => {
       let html = '<h3>' + heading + '</h3>';
       html += '<ul>';
       eventArray.forEach((event) => {
-        const summary = event['SUMMARY'];
-		const location = event['LOCATION'] ? '<i class="fa-solid fa-location-dot"></i> <i>' + event['LOCATION'] + '</i>' : '';
-        const description = event['DESCRIPTION'] ? '<i class="fa-solid fa-circle-info"></i> <i>' + event['DESCRIPTION'] + '</i>' : '';
+        const summary = event.SUMMARY ? event.SUMMARY.replace('VoidWarranties - ', '') : '';
+		const location = event.LOCATION ? '<i class="fa-solid fa-location-dot"></i> <i><a href="https://www.openstreetmap.org/search?query=' + event.LOCATION + '" target="_blank">' + event.LOCATION + '</a></i>' : '';
+        const description = event.DESCRIPTION ? '<i class="fa-solid fa-circle-info"></i> <i>' + event.DESCRIPTION + '</i>' : '';
         let eventDescription = '';
-		const startDateTime = new Date(event['DTSTART']);
-		const endDateTime = new Date(event['DTEND']);
+		const startDateTime = new Date(event.DTSTART);
+		const endDateTime = new Date(event.DTEND);
 		const timeDifference = 12 * 60 * 60 * 1000; // 12 hours -> endDate is shown before endTime when event is at least {0} hours
 		const startTime = startDateTime.toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
 		const endTime = endDateTime.toLocaleTimeString('nl-NL', { hour: "numeric", minute: "2-digit" });
@@ -150,40 +230,40 @@ const processEvents = (events) => {
 		const day = startDateTime.toLocaleString('nl-NL', { day: 'numeric'});
 		const month = startDateTime.toLocaleString('nl-NL', { month: 'numeric'});
 		const year = startDateTime.toLocaleString('nl-NL', { year: '2-digit'});
-        if (event['RRULE']) {
-          const rrule = parseRRule(event['RRULE']);
-		  switch ( rrule['FREQ'] ) {
+        if (event.RRULE) {
+          rrule = parseRRule(event.RRULE);
+		  switch ( rrule.FREQ ) {
 			case 'DAILY':
 			  // Handle daily recurrence
 			  // RRULE:FREQ=DAILY;INTERVAL=2
-			  eventDescription += ( !rrule['INTERVAL'] )? 'Dagelijks' : 'Elke ' + rrule['INTERVAL'] + ' dagen';
+			  eventDescription += ( !rrule.INTERVAL )? 'Dagelijks' : 'Elke ' + rrule.INTERVAL + ' dagen';
 			  break;
 			case 'WEEKLY':
 			  // Handle weekly recurrence
 			  // RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=WE,FR
-			  eventDescription += ( !rrule['INTERVAL'] )? 'Wekelijks' : 'Elke ' + rrule['INTERVAL'] + ' weken';
-			  if ( rrule['BYDAY'] ){
-				  console.log( "weekly byday: " + rrule['BYDAY'] );
-				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ') );
+			  eventDescription += ( !rrule.INTERVAL )? 'Wekelijks' : 'Elke ' + rrule.INTERVAL + ' weken';
+			  if ( rrule.BYDAY ){
+				  console.log( "weekly byday: " + rrule.BYDAY );
+				  eventDescription += ' op ' + ( rrule.BYDAY.split(',').length > 2 ? getDayOfWeek(rrule.BYDAY).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule.BYDAY).join(' en ') );
 			  }
 			  break;
 			case 'MONTHLY':
 			  // Handle monthly recurrence
 			  // RRULE:FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1,5,10
 			  // RRULE:FREQ=MONTHLY;BYDAY=1FR,5FR,-1FR,-2FR
-			  eventDescription += ( !rrule['INTERVAL'] )? 'Maandelijks' : 'Elke ' + rrule['INTERVAL'] + ' maanden';
-			  if ( rrule['BYMONTHDAY'] ){
-				  eventDescription += ' op de ' + rrule['BYMONTHDAY'] + 'e'; //add code for multiple monthdays
+			  eventDescription += ( !rrule.INTERVAL )? 'Maandelijks' : 'Elke ' + rrule.INTERVAL + ' maanden';
+			  if ( rrule.BYMONTHDAY ){
+				  eventDescription += ' op de ' + rrule.BYMONTHDAY + 'e'; //add code for multiple monthdays
 			  }
-			  if ( rrule['BYDAY'] ){
-				  eventDescription += ' op ' + ( rrule['BYDAY'].split(',').length > 2 ? getDayOfWeek(rrule['BYDAY']).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule['BYDAY']).join(' en ') );
+			  if ( rrule.BYDAY ){
+				  eventDescription += ' op ' + ( rrule.BYDAY.split(',').length > 2 ? getDayOfWeek(rrule.BYDAY).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule.BYDAY).join(' en ') );
 			  }
 			  break;
 			case 'YEARLY':
 			  // Handle yearly recurrence
 			  // RRULE:FREQ=YEARLY;INTERVAL=2;BYMONTH=6;BYMONTHDAY=21;UNTIL=20251118T110000Z
-			  eventDescription += ( !rrule['INTERVAL'] )? 'Jaarlijks' : 'Elke ' + rrule['INTERVAL'] + ' jaar';
-			  eventDescription += ' op ' + rrule['BYMONTHDAY'] + ' ' + new Date(2023, parseInt(rrule['BYMONTH']), 1).toLocaleString('nl-NL', { month: 'long' });
+			  eventDescription += ( !rrule.INTERVAL )? 'Jaarlijks' : 'Elke ' + rrule.INTERVAL + ' jaar';
+			  eventDescription += ' op ' + rrule.BYMONTHDAY + ' ' + new Date(2023, parseInt(rrule.BYMONTH), 1).toLocaleString('nl-NL', { month: 'long' });
 			  break;
 			default:
 			  // RRULE is not daily, weekly, monthly or yearly, so it must be secondly, minutely or hourly for some reason
@@ -195,25 +275,26 @@ const processEvents = (events) => {
 		}
 		eventDescription += ' van ' + startTime;
 		eventDescription += ' tot ' + ( endDateTime - startDateTime >= timeDifference ? endDateTime.toLocaleString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric'}) : "" );
-		eventDescription +=  endTime + ' uur';
+		eventDescription += ' ' + endTime + ' uur';
 		console.log(eventDescription);
-		html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`
-		/*html += '<li class="event">'
+		html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`;
+		html += '<!--';
+		html += '<li class="event">'
+			 +  '<div class="event-date" style="background: url(\'https://source.unsplash.com/120x120/?hacker,' + summary.split(' ').join(',') + '&img=1\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
 			 +  '<div class="event-date">'
-			 +  `<li class="event">`
-			 +  `<span class="weekday">${weekday}</span>`
-			 +  `<span class="day">${day}</span>`
-			 +  `<span class="month-year">${month} '${year}</span>`
-			 +  `<span class="time">${startTime} - ${endTime}</span>`
+			 +  '<span class="moment">' + weekday + '</span>'
+			 +  '<span class="day">' + day + '</span>'
+			 +  '<span class="month-year">' + month + ' ' + year + '</span>'
+			 +  '<span class="time">' + startTime + ' uur</span>'
+			 +  '</div>'
 			 +  '</div>'
 			 +  '<div class="event-details">'
-			 +  '<div class="event-title">'
-			 +  `<h3>${summary}</h3>`
+			 +  '<div class="event-title"><h3>' + summary + '</h3> ' + eventDescription + '</div>'
+			 +  '<div class="event-location"><i class="fa-solid fa-location-dot"></i> ' + location + '</div>'
+			 +  '<p class="event-description"><i class="fa-solid fa-circle-info"></i> ' + description + '</p>'
 			 +  '</div>'
-			 +  `<div class="event-location">${location}</div>`
-			 +  `<p class="event-description">${description}</p>`
-			 +  '</div>'
-			 +  '</li>';*/
+			 +  '</li>';
+		html += '-->';
       }); //end of foreach event
       html += '</ul>';
       return html;
@@ -245,7 +326,8 @@ const fetchCalendarICS = (url) => {
     }
   });
 };
-const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical'; // Replace with the actual URL of your calendar ICS file
+const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical';
 fetchCalendarICS(calendarICSUrl);
 </script>
+
 {% include quote.html %}
