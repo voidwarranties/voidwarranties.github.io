@@ -41,8 +41,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
 	  backdrop-filter: blur(2px);
     }
     .event-date .day {
-      font-size: 48px;
-      font-weight: bold;
+      font-size: 50px;
       margin-bottom: 0;
       color: #ffffff;
 	  line-height: 1em;
@@ -52,13 +51,11 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 5px;
-      font-weight: bold;
       color: #ffffff;
 	  margin: 0;
     }
     .event-date .time {
-      font-size: 12px;
-      font-weight: bold;
+      font-size: 14px;
       color: #ffffff;
     }
     .event-details {
@@ -66,7 +63,7 @@ https://calendar.google.com/calendar/ical/voidjosto@gmail.com/public/basic.ics
       margin-left: 20px;
       height: 120px;
       max-height: 120px;
-      overflow: scroll;
+      overflow: auto;
 	  display: flex;
 	  align-items: start;
 	  flex-direction: column;
@@ -250,6 +247,7 @@ const processEvents = (events) => {
 			  moment = ( !rrule.INTERVAL )? 'Wekelijks' : 'Elke ' + rrule.INTERVAL + ' weken';
 			  eventDescription += moment;
 			  day = startDateTime.toLocaleString('nl-NL', { weekday: 'short'});
+			  monthYear = startDateTime.toLocaleString('nl-NL', { weekday: 'long'});
 			  if ( rrule.BYDAY ){
 				  console.log( "weekly byday: " + rrule.BYDAY );
 				  eventDescription += ' op ' + ( rrule.BYDAY.split(',').length > 2 ? getDayOfWeek(rrule.BYDAY).join(', ').replace(/,(?=[^,]*$)/, ' en') : getDayOfWeek(rrule.BYDAY).join(' en ') );
@@ -297,7 +295,7 @@ const processEvents = (events) => {
 		//html += `<li>${summary} - ${eventDescription} ${location}<br>${description}</li>`;
 		//html += '<!--';
 		html += '<li class="event">'
-			 +  '<div class="event-date" style="background: url(\'https://source.unsplash.com/120x120/?hacker,' + summary.replace(/[\[\]&(),]/g, '').split(' ')[0] + '&img=1\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
+			 +  '<div class="event-date" style="background: url(\'https://source.unsplash.com/120x120/?' + summary.replace(/[\[\]&(),]/g, '').split(' ')[0] + '&img=1\'); box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.3);">'
 			 +  '<div class="event-date">'
 			 +  '<span class="moment">' + moment + '</span>'
 			 +  '<span class="day">' + day + '</span>'
