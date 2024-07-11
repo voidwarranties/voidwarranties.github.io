@@ -346,5 +346,7 @@ const fetchCalendarICS = (url) => {
 const calendarICSUrl = 'https://spaceapi.voidwarranties.be/ical';
 fetchCalendarICS(calendarICSUrl);
 </script>
+ Via deze <a href="https://spaceapi.voidwarranties.be/ical">iCal</a> link kan je onze activiteiten aan je kalender toevoegen.
+
 
 {% include quote.html %}
