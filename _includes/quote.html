@@ -2,7 +2,7 @@
 <div id="quote"><blockquote></blockquote></div>
 <script>
 $(function() {
-  $.getJSON("https://api.quotable.io/random?tags=technology", function(data) {
+  $.getJSON("http://api.quotable.io/random?tags=technology", function(data) {
     $("#quote").html('<blockquote>"' + data.content + '"<br /><div class="cite"><cite>' + data.author + '</cite></div></blockquote>');
   })
 });
