@@ -188,6 +188,7 @@ blockquote {
     text-align: center;
     padding: 1rem 0.8rem;
     flex: 0 0 auto;
+    max-width: 5rem;
 }
 
 .event-title {
