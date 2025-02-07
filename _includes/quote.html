@@ -1,9 +1,0 @@
-<hr>
-<div id="quote"><blockquote></blockquote></div>
-<script>
-$(function() {
-  $.getJSON("https://spaceapi.voidwarranties.be/quotes/random?tags=technology", function(data) {
-    $("#quote").html('<blockquote>"' + data[0].content + '"<br /><div class="cite"><cite>' + data[0].author + '</cite></div></blockquote>');
-  })
-});
-</script>
