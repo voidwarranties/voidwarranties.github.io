@@ -3,10 +3,10 @@ function spaceApi() {
     .then(response => response.json())
     .then(data => {
       if (data.state.open) {
-        document.getElementById("logo").setAttribute("src", "/img/voidlogo-on.png");
+        document.getElementById("logo").setAttribute("src", "img/voidlogo-on.png");
         document.getElementById("logo").setAttribute("alt", "logo - space open");
       } else {
-        document.getElementById("logo").setAttribute("src", "/img/voidlogo-off.png");
+        document.getElementById("logo").setAttribute("src", "img/voidlogo-off.png");
         document.getElementById("logo").setAttribute("alt", "logo - space closed");
       }
     })
