@@ -16,6 +16,7 @@ async function fetchAndParseICS(url) {
         displayEvents(upcomingEvents, "upcoming");
     } catch (error) {
         console.error("Error fetching or parsing the ICS file:", error);
+        document.getElementById("recurring-events").textContent = "Failed to load events, please contact us if this keeps happening.";
     }
 }
 
