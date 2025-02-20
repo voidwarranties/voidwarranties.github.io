@@ -36,14 +36,32 @@
 
     <div class="main">
         <div class="panel-4" id="recurring-events">
-            Loading events...
+            <noscript>
+                <!-- Needs to be updated if weekly changes -->
+                <h1>Recurring events</h1>
+                <div class="eventlist">
+                    <div class="event">
+                        <div class="event-header">
+                            <div class="event-date">WEEKLY<br>WE</div>
+                            <span class="event-title">VoidWarranties - Social<br>
+                                <small>7:00 PM → 11:00 PM</small>
+                            </span>
+                        </div>
+                        <p>Op woensdagavond staan de laptops een beetje minder ver open, en schuiven we de projectjes een beetje aan de kant. Hierdoor kunnen we met een frisdrank, Mate of biertje rustig bijpraten over onze laptops of projectjes...<br>Ideaal moment voor geïnteresseerden om met de organisatie kennis te maken.
+                        </p>
+                    </div>
+                </div>
+            </noscript>
         </div>
         <div class="panel-2 panel-highlight">
             Our calendar feed is also available as <a href="https://spaceapi.voidwarranties.be/ical">iCalendar ICS</a>.<br>
             You can add this to your own calendar of choice to stay up-to-date.
         </div>
         <div class="panel-4" id="upcoming-events">
-            Loading events...
+            <noscript>Enable JavaScript to load events.</noscript>
+            <script>
+                document.getElementById("upcoming-events").textContent = "Loading events...";
+            </script>
         </div>
     </div>
 </body>
