@@ -36,6 +36,9 @@
 
     <div class="main">
         <div class="panel-4" id="recurring-events">
+            <script>
+                document.getElementById("recurring-events").textContent = "Loading events...";
+            </script>
             <noscript>
                 <!-- Needs to be updated if weekly changes -->
                 <h1>Recurring events</h1>
@@ -58,10 +61,7 @@
             You can add this to your own calendar of choice to stay up-to-date.
         </div>
         <div class="panel-4" id="upcoming-events">
-            <noscript>Enable JavaScript to load events.</noscript>
-            <script>
-                document.getElementById("upcoming-events").textContent = "Loading events...";
-            </script>
+            <noscript style="color:red">JavaScript is required to load events.</noscript>
         </div>
     </div>
 </body>
