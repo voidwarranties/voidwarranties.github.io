@@ -15,5 +15,5 @@ function spaceApi() {
 
 document.addEventListener("DOMContentLoaded", spaceApi);
 
-setInterval(spaceApi, 10000);
+setInterval(spaceApi, 60000);
   
