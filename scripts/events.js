@@ -72,12 +72,12 @@ function parseDateTime(datetimeStr) {
 }
 
 function filterRecurringEvents(events) {
-    return events.filter(event => event.rrule != null);
+    return events.filter(event => event.rrule != null).sort((a, b) => a.start - b.start);
 }
 
 function filterUpcomingEvents(events) {
     const now = new Date();
-    return events.filter(event => event.start >= now && event.rrule == null);
+    return events.filter(event => event.start >= now && event.rrule == null).sort((a, b) => a.start - b.start);
 }
 
 
