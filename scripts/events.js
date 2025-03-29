@@ -37,6 +37,7 @@ function parseICS(icsText) {
         const endMatch = eventData.match(/DTEND(;TZID=)?(?:[^:]+)?:(\d{8}T\d{6}Z?)\r?\n/);
         const rruleMatch = eventData.match(/RRULE:(.*?)\r?\n/);
         const descriptionMatch = eventData.match(/DESCRIPTION:(.*?)(?=\n[A-Z-]+:|$)/s);
+        const locationMatch = eventData.match(/LOCATION:(.*?)(?=\n[A-Z-]+:|$)/s);
 
         if (summaryMatch) event.summary = summaryMatch[1];
         if (startMatch) event.start = parseDateTime(startMatch[2]);
@@ -47,6 +48,9 @@ function parseICS(icsText) {
         if (descriptionMatch) event.description = descriptionMatch[1]
             .replace(/\r\n\s/g, '') // whyyyy is this data so shit
             .replace(/\\n/g, '<br>') // Replace "\n" with a line break
+            .replace(/\\,/g, ','); // Replace "\," with a comma
+        if (locationMatch) event.location = locationMatch[1]
+            .replace(/\r\n\s/g, '') // whyyyy is this data so shit
             .replace(/\\,/g, ','); // Replace "\," with a comma
 
         events.push(event);
@@ -72,12 +76,12 @@ function parseDateTime(datetimeStr) {
 }
 
 function filterRecurringEvents(events) {
-    return events.filter(event => event.rrule != null);
+    return events.filter(event => event.rrule != null).sort((a, b) => a.start - b.start);
 }
 
 function filterUpcomingEvents(events) {
     const now = new Date();
-    return events.filter(event => event.start >= now && event.rrule == null);
+    return events.filter(event => event.start >= now && event.rrule == null).sort((a, b) => a.start - b.start);
 }
 
 
@@ -119,6 +123,10 @@ function displayEvents(events, type) {
             date = event.start.toLocaleDateString(undefined, dateOptions);
         }
 
+        let location = "";
+        if (event.location != undefined)
+            location = event.location;
+
         eventDiv.innerHTML = `
             <div class="event-header">
                 <div class="event-date">${date.replace(/,/g, "<br>")}</div>
@@ -126,7 +134,8 @@ function displayEvents(events, type) {
                     <small>${event.start.toLocaleTimeString(undefined, timeOptions)} → ${event.end.toLocaleTimeString(undefined, timeOptions)}</small>
                 </span>
             </div>
-            <p>${event.description}</p>`;
+            <p>${event.description}</p>
+            <small>${location}</small>`;
         eventsList.appendChild(eventDiv);
     });
 }
