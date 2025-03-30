@@ -56,11 +56,12 @@ p { margin: var(--char-height) var(--char-width); }
 
 a { color: var(--text-color); }
 
-object {
+object, iframe, #state {
 	margin: 16px auto;
 	width: 80%;
-    grid-column: auto / span 2;
+    	grid-column: auto / span 2;
 	min-height: 320px;
+	border: 0;
 }
 .logo {
 	text-align: center;
