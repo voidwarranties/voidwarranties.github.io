@@ -81,7 +81,7 @@ function filterRecurringEvents(events) {
 
 function filterUpcomingEvents(events) {
     const now = new Date();
-    return events.filter(event => event.start >= now && event.rrule == null).sort((a, b) => a.start - b.start);
+    return events.filter(event => event.end >= now && event.rrule == null).sort((a, b) => a.start - b.start);
 }
 
 
