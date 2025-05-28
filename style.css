@@ -2,18 +2,20 @@
     --body-bg: oklch(20% 0.0064 196.52);
     --text: oklch(95% 0 0);
     --accent: oklch(75% 0.1109 178.61);
-  }
+    --accent-darker: oklch(25% 0.1109 178.61);
+}
 
 body {
-    background-color:var(--body-bg);
-    color:var(--text);
+    background-color: var(--body-bg);
+    color: var(--text);
     font-family: "Sono", monospace;
     margin: auto;
     padding: 0 1rem;
     max-width: 76rem;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-weight: 500;
     padding: 0.5rem 0;
     margin: 0;
@@ -102,7 +104,7 @@ blockquote {
 }
 
 .menu a {
-    color:var(--accent);
+    color: var(--accent);
     border: 1px solid var(--accent);
     padding: 0.5em 1em;
     text-decoration: none;
@@ -114,7 +116,7 @@ blockquote {
 }
 
 .menu a.active {
-    color:var(--body-bg);
+    color: var(--body-bg);
     background-color: var(--accent);
 }
 
@@ -129,6 +131,14 @@ blockquote {
     row-gap: 1.5rem;
     align-items: start;
     padding-bottom: 1.5rem;
+}
+
+.banner {
+    width: 100%;
+    text-align: center;
+    background-color: var(--accent-darker);
+    border: 1px solid var(--accent);
+    padding: 1em 0;
 }
 
 .row {
@@ -152,7 +162,7 @@ blockquote {
     height: 100%;
 }
 
-.panel-flex > * {
+.panel-flex>* {
     flex: 1;
 }
 
@@ -195,6 +205,6 @@ blockquote {
     font-size: larger;
 }
 
-.event-title > small {
+.event-title>small {
     font-size: small;
 }
