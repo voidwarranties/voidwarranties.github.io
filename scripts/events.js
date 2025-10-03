@@ -9,10 +9,13 @@ async function fetchAndParseICS(url) {
 
     // Filter for recurring and upcoming events
     const recurringEvents = filterRecurringEvents(events);
-    const upcomingEvents = filterUpcomingEvents(events);
+    let upcomingEvents = filterUpcomingEvents(events);
+
+    // Expand recurring events for the next 4 weeks
+    const expandedEvents = expandRecurringEvents(recurringEvents);
 
     // Display the events
-    displayEvents(recurringEvents, "recurring");
+    displayEvents(expandedEvents, "recurring");
     displayEvents(upcomingEvents, "upcoming");
   } catch (error) {
     console.error("Error fetching or parsing the ICS file:", error);
@@ -64,6 +67,125 @@ function parseICS(icsText) {
   }
 
   return events;
+}
+
+function expandRecurringEvents(recurringEvents) {
+  const upcomingOccurrences = [];
+  const now = new Date();
+  const fourWeeksFromNow = new Date(
+    now.getTime() + 4 * 7 * 24 * 60 * 60 * 1000
+  );
+
+  const dayMap = {
+    SU: 0,
+    MO: 1,
+    TU: 2,
+    WE: 3,
+    TH: 4,
+    FR: 5,
+    SA: 6,
+  };
+
+  recurringEvents.forEach((event) => {
+    const parts = {};
+    if (event.rrule) {
+      event.rrule.split(";").forEach((part) => {
+        const [key, value] = part.split("=");
+        if (key && value) parts[key] = value;
+      });
+    }
+
+    const duration = event.end.getTime() - event.start.getTime();
+    const startHours = event.start.getHours();
+    const startMinutes = event.start.getMinutes();
+    const startSeconds = event.start.getSeconds();
+
+    if (parts.FREQ === "WEEKLY" && parts.BYDAY) {
+      const targetDays = parts.BYDAY.split(",").map((d) => dayMap[d]);
+
+      for (let i = 0; i < 28; i++) {
+        const nextDate = new Date(now);
+        nextDate.setDate(now.getDate() + i);
+
+        if (targetDays.includes(nextDate.getDay())) {
+          const occurrenceStart = new Date(nextDate);
+          occurrenceStart.setHours(startHours, startMinutes, startSeconds, 0);
+
+          if (occurrenceStart >= now && occurrenceStart < fourWeeksFromNow) {
+            const occurrenceEnd = new Date(
+              occurrenceStart.getTime() + duration
+            );
+            const newEvent = { ...event };
+            delete newEvent.rrule;
+            newEvent.start = occurrenceStart;
+            newEvent.end = occurrenceEnd;
+            upcomingOccurrences.push(newEvent);
+          }
+        }
+      }
+    } else if (parts.FREQ === "MONTHLY" && parts.BYDAY) {
+      const dayStr = parts.BYDAY;
+      const numMatch = dayStr.match(/(-?\d+)/);
+      const dayMatch = dayStr.match(/[A-Z]{2}/);
+
+      if (numMatch && dayMatch) {
+        const weekOfMonth = parseInt(numMatch[0], 10);
+        const targetDay = dayMap[dayMatch[0]];
+
+        // Check current and next two months to cover the 4-week window
+        for (let m = 0; m < 3; m++) {
+          const checkDate = new Date(now.getFullYear(), now.getMonth() + m, 1);
+          const year = checkDate.getFullYear();
+          const month = checkDate.getMonth();
+          let occurrenceDate = null;
+
+          if (weekOfMonth > 0) {
+            // Nth day of the month
+            let count = 0;
+            for (let day = 1; day <= 31; day++) {
+              const d = new Date(year, month, day);
+              if (d.getMonth() !== month) break; // Past the end of the month
+              if (d.getDay() === targetDay) {
+                count++;
+                if (count === weekOfMonth) {
+                  occurrenceDate = d;
+                  break;
+                }
+              }
+            }
+          } else if (weekOfMonth === -1) {
+            // Last day of the month
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            for (let day = lastDayOfMonth.getDate(); day >= 1; day--) {
+              const d = new Date(year, month, day);
+              if (d.getDay() === targetDay) {
+                occurrenceDate = d;
+                break;
+              }
+            }
+          }
+
+          if (occurrenceDate) {
+            const occurrenceStart = new Date(occurrenceDate);
+            occurrenceStart.setHours(startHours, startMinutes, startSeconds, 0);
+
+            if (occurrenceStart >= now && occurrenceStart < fourWeeksFromNow) {
+              const occurrenceEnd = new Date(
+                occurrenceStart.getTime() + duration
+              );
+              const newEvent = { ...event };
+              delete newEvent.rrule;
+              newEvent.start = occurrenceStart;
+              newEvent.end = occurrenceEnd;
+              upcomingOccurrences.push(newEvent);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return upcomingOccurrences;
 }
 
 function rruleToHumanReadable(rruleString) {
