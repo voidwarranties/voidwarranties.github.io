@@ -12,7 +12,9 @@ async function fetchAndParseICS(url) {
     let upcomingEvents = filterUpcomingEvents(events);
 
     // Expand recurring events for the next 4 weeks
-    const expandedEvents = expandRecurringEvents(recurringEvents);
+    const expandedEvents = expandRecurringEvents(recurringEvents).sort(
+      (a, b) => a.start - b.start
+    );
 
     // Display the events
     displayEvents(expandedEvents, "recurring");
