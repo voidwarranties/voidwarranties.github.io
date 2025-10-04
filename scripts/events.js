@@ -7,21 +7,21 @@ async function fetchAndParseICS(url) {
     // Parse the ICS content into events
     const events = parseICS(icsText);
 
-    // Filter for recurring and upcoming events
-    const recurringEvents = filterRecurringEvents(events);
-    let upcomingEvents = filterUpcomingEvents(events);
+    // Filter for upcoming and future events
+    const upcomingEvents = filterupcomingEvents(events);
+    let futureEvents = filterfutureEvents(events);
 
-    // Expand recurring events for the next 4 weeks
-    const expandedEvents = expandRecurringEvents(recurringEvents).sort(
+    // Expand upcoming events for the next 4 weeks
+    const expandedEvents = expandupcomingEvents(upcomingEvents).sort(
       (a, b) => a.start - b.start
     );
 
     // Display the events
-    displayEvents(expandedEvents, "recurring");
-    displayEvents(upcomingEvents, "upcoming");
+    displayEvents(expandedEvents, "upcoming");
+    displayEvents(futureEvents, "future");
   } catch (error) {
     console.error("Error fetching or parsing the ICS file:", error);
-    document.getElementById("recurring-events").textContent =
+    document.getElementById("upcoming-events").textContent =
       "Failed to load events, please contact us if this keeps happening.";
   }
 }
@@ -71,8 +71,8 @@ function parseICS(icsText) {
   return events;
 }
 
-function expandRecurringEvents(recurringEvents) {
-  const upcomingOccurrences = [];
+function expandupcomingEvents(upcomingEvents) {
+  const futureOccurrences = [];
   const now = new Date();
   const fourWeeksFromNow = new Date(
     now.getTime() + 4 * 7 * 24 * 60 * 60 * 1000
@@ -88,7 +88,7 @@ function expandRecurringEvents(recurringEvents) {
     SA: 6,
   };
 
-  recurringEvents.forEach((event) => {
+  upcomingEvents.forEach((event) => {
     const parts = {};
     if (event.rrule) {
       event.rrule.split(";").forEach((part) => {
@@ -121,7 +121,7 @@ function expandRecurringEvents(recurringEvents) {
             delete newEvent.rrule;
             newEvent.start = occurrenceStart;
             newEvent.end = occurrenceEnd;
-            upcomingOccurrences.push(newEvent);
+            futureOccurrences.push(newEvent);
           }
         }
       }
@@ -179,7 +179,7 @@ function expandRecurringEvents(recurringEvents) {
               delete newEvent.rrule;
               newEvent.start = occurrenceStart;
               newEvent.end = occurrenceEnd;
-              upcomingOccurrences.push(newEvent);
+              futureOccurrences.push(newEvent);
             }
           }
         }
@@ -187,7 +187,7 @@ function expandRecurringEvents(recurringEvents) {
     }
   });
 
-  return upcomingOccurrences;
+  return futureOccurrences;
 }
 
 function rruleToHumanReadable(rruleString) {
@@ -268,13 +268,13 @@ function parseDateTime(datetimeStr) {
   return date;
 }
 
-function filterRecurringEvents(events) {
+function filterupcomingEvents(events) {
   return events
     .filter((event) => event.rrule != null)
     .sort((a, b) => a.start - b.start);
 }
 
-function filterUpcomingEvents(events) {
+function filterfutureEvents(events) {
   const now = new Date();
   return events
     .filter((event) => event.end >= now && event.rrule == null)
@@ -337,7 +337,7 @@ function displayEvents(events, type) {
                 </span>
             </div>
             <p>${event.description}</p>
-            <small>${location}</small>`;
+            <small>${location}</small><hr>`;
     eventsList.appendChild(eventDiv);
   });
 }
